@@ -1,5 +1,6 @@
-/* eslint-disable */
-
+/**
+ * 工具类
+ */
 export default class Util {
     constructor() {
         let device = {},
@@ -13,7 +14,9 @@ export default class Util {
         this.ua = ua
     }
 
-    // 获取设备信息
+    /**
+     * 获取设备信息
+     */
     getDevice() {
         let device = this.device,
             ua = this.ua
@@ -110,9 +113,43 @@ export default class Util {
         device.webView = (showConstants || showEffects || showPackageConstants) && ua.match(/.*AppleWebKit(?!.*Safari)/i)
 
         this.device = Object(this.device, device)
-        
+
         return this.device;
     }
-}
 
-/* eslint-enable */
+    /**
+     * 判断数据类型
+     * util.isType().isArray(……)
+     */
+    isType() {
+        let _obj = {
+            isNumeric: 'Number',
+            isBoolean: 'Boolean',
+            isString: 'String',
+            isNull: 'Null',
+            isUndefined: 'Undefined',
+            isSymbol: 'Symbol',
+            isPlainObject: 'Object',
+            isArray: 'Array',
+            isRegExp: 'RegExp',
+            isDate: 'Date',
+            isfunction: 'Function',
+            isWindow: 'Window'
+        }
+
+        let _type = {},
+            _toString = _type.toString
+
+        for (var key in _obj) {
+            if (!_obj.hasOwnProperty(key)) break
+            _type[key] = (function () {
+                var reg = new RegExp("^\\[object " + _obj[key] + "\\]$")
+                return function anonymous(val) {
+                    return reg.test(_toString.call(val))
+                }
+            })()
+        }
+
+        return _type
+    }
+}
