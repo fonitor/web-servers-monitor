@@ -70,7 +70,45 @@ export default class Util {
                 }
             }
         }
+        if (-1 == ua.indexOf("Mobile")) {
+            /** @type {string} */
+            let ua = navigator.userAgent.toLowerCase();
+            if (device.browserName = "\u672a\u77e5", 0 < ua.indexOf("msie")) {
+                /** @type {string} */
+                var assignmentUrl = ua.match(/msie [\d.]+;/gi)[0];
+                /** @type {string} */
+                device.browserName = assignmentUrl.split("/")[0];
+                /** @type {string} */
+                device.browserVersion = assignmentUrl.split("/")[1];
+            }
+            if (0 < ua.indexOf("firefox")) {
+                /** @type {string} */
+                assignmentUrl = ua.match(/firefox\/[\d.]+/gi)[0];
+                /** @type {string} */
+                device.browserName = assignmentUrl.split("/")[0];
+                /** @type {string} */
+                device.browserVersion = assignmentUrl.split("/")[1];
+            }
+            if (0 < ua.indexOf("safari") && ua.indexOf("chrome") < 0) {
+                /** @type {string} */
+                assignmentUrl = ua.match(/safari\/[\d.]+/gi)[0];
+                /** @type {string} */
+                device.browserName = assignmentUrl.split("/")[0];
+                /** @type {string} */
+                device.browserVersion = assignmentUrl.split("/")[1];
+            }
+            if (0 < ua.indexOf("chrome")) {
+                /** @type {string} */
+                assignmentUrl = ua.match(/chrome\/[\d.]+/gi)[0];
+                /** @type {string} */
+                device.browserName = assignmentUrl.split("/")[0];
+                /** @type {string} */
+                device.browserVersion = assignmentUrl.split("/")[1];
+            }
+        }
+
         this.device = Object(this.device, device)
+        console.log(this.device)
 
         return this.device
     }
