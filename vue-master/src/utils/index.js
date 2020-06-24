@@ -4,8 +4,7 @@ let util = new Util()
 
 export default class Monitor {
     constructor() {
-        console.log('sss')
-        util.getDevice()
+        console.log(util.getDevice())
     }
 
 

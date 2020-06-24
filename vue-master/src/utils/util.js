@@ -107,10 +107,11 @@ export default class Util {
             }
         }
 
-        this.device = Object(this.device, device)
-        console.log(this.device)
+        device.webView = (showConstants || showEffects || showPackageConstants) && ua.match(/.*AppleWebKit(?!.*Safari)/i)
 
-        return this.device
+        this.device = Object(this.device, device)
+        
+        return this.device;
     }
 }
 
