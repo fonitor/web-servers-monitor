@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 /**
  * 工具类
  */
@@ -153,3 +155,5 @@ export default class Util {
         return _type
     }
 }
+
+/* eslint-enable */
