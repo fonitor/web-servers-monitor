@@ -9,6 +9,10 @@ let monitor = new Monitor()
 
 Vue.config.productionTip = false
 
+setTimeout(() => {
+  console.log(ss)
+}, 3000)
+
 new Vue({
   router,
   store,
