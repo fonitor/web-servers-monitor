@@ -15,7 +15,9 @@ export default class Util {
         this.device = device
         this.ua = ua
         this.o = (window.location.href, "")
-        this.ip = ''
+        this.monitorIp = ''
+        this.country = ''
+        this.uuid = ''
     }
 
     /**
@@ -282,6 +284,7 @@ export default class Util {
             document.cookie = "monitorAppKey=" + uuid + ";Path=/;domain=" + this.o + ";expires=" + dateExpires.toGMTString();
             obj = uuid;
         }
+        this.uuid = obj
         return obj;
     }
 
@@ -307,9 +310,9 @@ export default class Util {
             }
         }
         this.loadJs('//pv.sohu.com/cityjson?ie=utf-8', _ => {
-            var opt_by = returnCitySN ? returnCitySN.cip : "";
+            var opt_by = this.monitorIp =  returnCitySN ? returnCitySN.cip : "";
             /** @type {string} */
-            var urlSafeNodeName = encodeURIComponent(returnCitySN ? returnCitySN.cname : "");
+            var urlSafeNodeName = this.country = encodeURIComponent(returnCitySN ? returnCitySN.cname : "");
             /** @type {!Date} */
             var dateExpires = new Date;
             dateExpires.setTime(dateExpires.getTime() + 864e5);
