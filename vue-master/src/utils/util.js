@@ -15,6 +15,7 @@ export default class Util {
         this.device = device
         this.ua = ua
         this.o = (window.location.href, "")
+        this.ip = ''
     }
 
     /**
@@ -293,6 +294,61 @@ export default class Util {
         /** @type {!RegExp} */
         let re2 = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
         return document.cookie.match(re2) ? (t = document.cookie.match(re2), unescape(t[2])) : "";
+    }
+
+    /**
+     * 获取ip地址
+     * @param {*} cb 
+     */
+    getIp(cb) {
+        if (this.getCookie('monitor_web_ip')) {
+            if (this.isType().isfunction(cb)) {
+                cb()
+            }
+        }
+        this.loadJs('//pv.sohu.com/cityjson?ie=utf-8', _ => {
+            var opt_by = returnCitySN ? returnCitySN.cip : "";
+            /** @type {string} */
+            var urlSafeNodeName = encodeURIComponent(returnCitySN ? returnCitySN.cname : "");
+            /** @type {!Date} */
+            var dateExpires = new Date;
+            dateExpires.setTime(dateExpires.getTime() + 864e5);
+            /** @type {string} */
+            document.cookie = "monitor_web_ip=" + opt_by + ";Path=/;domain=;expires=" + dateExpires.toGMTString();
+            /** @type {string} */
+            document.cookie = "monitor_web_province=" + urlSafeNodeName + ";Path=/;domain=;expires=" + dateExpires.toGMTString();
+            if (this.isType().isfunction(cb)) {
+                cb()
+            }
+        }, _ => {
+            if (this.isType().isfunction(cb)) {
+                cb()
+            }
+        })
+    }
+
+    /**
+     * 页面载入js文件
+     * @param {*} js 
+     * @param {*} callback 
+     * @param {*} url 
+     */
+    loadJs(js, callback, url) {
+        /** @type {!Element} */
+        var script = document.createElement("script");
+        /** @type {number} */
+        script.async = 1;
+        /** @type {string} */
+        script.src = js;
+        /** @type {!Function} */
+        script.onload = callback;
+        if ("function" == typeof url) {
+            /** @type {!Function} */
+            script.onerror = url;
+        }
+        /** @type {!Element} */
+        var mContainer = document.getElementsByTagName("script")[0];
+        return mContainer.parentNode.insertBefore(script, mContainer), mContainer;
     }
 }
 
