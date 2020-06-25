@@ -14,6 +14,7 @@ export default class Util {
 
         this.device = device
         this.ua = ua
+        this.o = (window.location.href, "")
     }
 
     /**
@@ -250,6 +251,48 @@ export default class Util {
         var re = eval('/(' + paramName + '=)([^&]*)/gi');
         location.href = oUrl.replace(re, paramName + '=' + replaceWith);
         return location.href;
+    }
+
+
+    /**
+     * 获取唯一uuid
+     */
+    getUuid() {
+        /** @type {number} */
+        var _transactionName = (new Date).getTime();
+        return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
+            /** @type {number} */
+            var r = 16 * Math.random() | 0;
+            return ("x" == c ? r : 3 & r | 8).toString(16);
+        }) + "-" + _transactionName;
+    }
+
+    /**
+     * @return {?}
+     */
+    getCustomerKey() {
+        var uuid = this.getUuid();
+        var obj = this.getCookie("monitorAppKey");
+        if (!obj) {
+            /** @type {!Date} */
+            var dateExpires = new Date;
+            dateExpires.setTime(dateExpires.getTime() + 15552e7);
+            /** @type {string} */
+            document.cookie = "monitorAppKey=" + uuid + ";Path=/;domain=" + this.o + ";expires=" + dateExpires.toGMTString();
+            obj = uuid;
+        }
+        return obj;
+    }
+
+    /**
+     * 获取cookie
+     * @param {*} name 
+     */
+    getCookie(name) {
+        let t;
+        /** @type {!RegExp} */
+        let re2 = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+        return document.cookie.match(re2) ? (t = document.cookie.match(re2), unescape(t[2])) : "";
     }
 }
 
