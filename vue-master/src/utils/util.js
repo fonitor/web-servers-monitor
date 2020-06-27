@@ -309,6 +309,7 @@ export default class Util {
                 cb()
             }
         }
+        // 搜狐IP地址查询接口（可设置编码）
         this.loadJs('//pv.sohu.com/cityjson?ie=utf-8', _ => {
             var opt_by = this.monitorIp =  returnCitySN ? returnCitySN.cip : "";
             /** @type {string} */
