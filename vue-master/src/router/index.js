@@ -36,7 +36,7 @@ window.routerChange = (e) => {
 
 router.beforeEach((to, from, next) => {
   /* eslint-disable */
-  routerChange(to)
+  // routerChange(to)
   next()
 })
 
