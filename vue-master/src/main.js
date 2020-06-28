@@ -5,7 +5,9 @@ import store from './store'
 
 import Monitor from './utils/index'
 /* eslint-disable */
-let monitor = new Monitor()
+let monitor = new Monitor({
+  
+})
 
 Vue.config.productionTip = false
 

@@ -4,7 +4,11 @@ import * as error from './config/index'
 let util = new Util()
 
 export default class Monitor {
-    constructor() {
+    constructor(options) {
+
+        // 初始化框架基础参数
+        this.options = util.isType().isPlainObject(options) ? options : {}
+
         window.onload = () => {
             this.init()
             this.run()
@@ -54,9 +58,9 @@ export default class Monitor {
     getCommonProperty() {
         let logObj = {},
             device = util.device,
-            userInfo = window.monitorUser || {}
+            userInfo = this.options.hasOwnProperty('monitorUser') && util.isType().isPlainObject(this.options.monitorUser) ? this.options.monitorUser : {}
         logObj.happenTime = new Date().getTime() // 日志发生时间
-        logObj.webMonitorId = window.WEB_MONITOR_ID || '' // 用于区分应用的唯一标识（一个项目对应一个）
+        logObj.webMonitorId = this.options.WEB_MONITOR_ID || '' // 用于区分应用的唯一标识（一个项目对应一个）
         logObj.simpleUrl = window.location.href.split('?')[0].replace('#', '') // 页面的url
         logObj.customerKey = util.uuid // 用于区分用户，所对应唯一的标识，清理本地数据后失效
         logObj.pageKey = ''  // 用于区分页面，所对应唯一的标识，每个新页面对应一个值
