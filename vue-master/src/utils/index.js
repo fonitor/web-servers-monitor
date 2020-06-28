@@ -5,7 +5,9 @@ let util = new Util()
 
 export default class Monitor {
     constructor() {
-        this.run()
+        window.onload = () => {
+            this.run()
+        }
     }
 
     /**
@@ -25,7 +27,7 @@ export default class Monitor {
         this.recordJavaScriptError()
         // 资源监控
         this.recordResourceError()
-        
+
     }
 
     /**
@@ -128,7 +130,7 @@ export default class Monitor {
         window.addEventListener('error', (e) => {
             let typeName = e.target.localName
             let sourceUrl = ""
-            switch(typeName){
+            switch (typeName) {
                 case 'link':
                     sourceUrl = e.target.href || ''
                     break
@@ -146,7 +148,7 @@ export default class Monitor {
             this.resourceErrorInfo(error.RESOURCE_LOAD, sourceUrl, typeName)
         }, true);
     }
-    
+
     /**
      * 资源错误监控基础字段（注意内存，使用深拷贝，以免基本信息被改动）
      * @param {*} uploadType 
