@@ -25,7 +25,7 @@ export default class Monitor {
         this.recordJavaScriptError()
         // 资源监控
         this.recordResourceError()
-
+        
     }
 
     /**
@@ -159,7 +159,6 @@ export default class Monitor {
         obj.errorUrl = sourceUrl
         obj.errorName = typeName;
         obj.browserInfo = '';
-        console.log(obj)
         return obj
     }
 

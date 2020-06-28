@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <div id="nav">
-      <link rel="stylesheet" href="https://fanyi.baidu.com/static/translate-mobile/pkg/aio_e859ee7ss.css" type="text/css">
-      <img src="https://fanyi.baidu.com/static/translate-mobile/pkg/aio_e859ee7ss.jpg" alt="">
+      <!-- <link rel="stylesheet" href="https://fanyi.baidu.com/static/translate-mobile/pkg/aio_e859ee7ss.css" type="text/css"> -->
+      <!-- <img src="https://fanyi.baidu.com/static/translate-mobile/pkg/aio_e859ee7ss.jpg" alt=""> -->
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
     </div>
