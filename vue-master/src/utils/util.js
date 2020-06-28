@@ -311,7 +311,7 @@ export default class Util {
         }
         // 搜狐IP地址查询接口（可设置编码）
         this.loadJs('//pv.sohu.com/cityjson?ie=utf-8', _ => {
-            var opt_by = this.monitorIp =  returnCitySN ? returnCitySN.cip : "";
+            var opt_by = this.monitorIp = returnCitySN ? returnCitySN.cip : "";
             /** @type {string} */
             var urlSafeNodeName = this.country = encodeURIComponent(returnCitySN ? returnCitySN.cname : "");
             /** @type {!Date} */
@@ -353,6 +353,21 @@ export default class Util {
         /** @type {!Element} */
         var mContainer = document.getElementsByTagName("script")[0];
         return mContainer.parentNode.insertBefore(script, mContainer), mContainer;
+    }
+
+    /**
+     * 创建一个base-64编码字符串
+     * base-64 解码使用方法是 atob() 
+     * @param {*} str 
+     */
+    b64EncodeUnicode(str) {
+        try {
+            return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function (canCreateDiscussions, index) {
+                return String.fromCharCode("0x" + index);
+            }));
+        } catch (e) {
+            return str;
+        }
     }
 }
 
