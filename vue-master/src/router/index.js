@@ -2,9 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 
-Vue.use(VueRouter)
 
-  const routes = [
+const routes = [
   {
     path: '/',
     name: 'Home',
@@ -22,8 +21,26 @@ Vue.use(VueRouter)
 
 const router = new VueRouter({
   mode: 'history',
-  base: process.env.BASE_URL,
+  // base: process.env.BASE_URL,
   routes
 })
+
+window.addEventListener('routerChange', (e) => {
+  console.log('sssssss')
+})
+
+window.routerChange = (e) => {
+  console.log('sssssasdasd')
+  console.log(e)
+}
+
+router.beforeEach((to, from, next) => {
+  /* eslint-disable */
+  routerChange(to)
+  next()
+})
+
+Vue.use(VueRouter)
+
 
 export default router

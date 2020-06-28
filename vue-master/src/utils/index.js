@@ -6,14 +6,16 @@ let util = new Util()
 export default class Monitor {
     constructor() {
         window.onload = () => {
+            this.init()
             this.run()
+            this.content()
         }
     }
 
     /**
      * 初始化
      */
-    run() {
+    init() {
         // 获取设备信息
         util.getDevice()
         // 存储唯一uuid
@@ -23,11 +25,27 @@ export default class Monitor {
         this.rows = window.location.href.split("?")[0].replace("#", "")
         this.createDebugClient = null
         this.current = -1 === window.location.href.indexOf("https") ? "http://" : "https://"
+    }
+
+    /**
+     * 运行监听
+     */
+    run() {
         // 监控js
         this.recordJavaScriptError()
         // 资源监控
         this.recordResourceError()
+        window.addEventListener('hashchange', (e) => {
+            console.log('ceshi1')
+            console.log(e)
+        })
+    }
 
+    /**
+     * 启动发送
+     */
+    content() {
+        
     }
 
     /**
