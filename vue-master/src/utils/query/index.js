@@ -1,5 +1,5 @@
 import Util from '../util/index'
-const util = new Util()
+const util = Util.getInstance()
 
 /**
  * 定时任务，避免浏览器并发

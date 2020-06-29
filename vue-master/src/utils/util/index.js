@@ -18,6 +18,7 @@ export default class Util {
         this.monitorIp = ''
         this.country = ''
         this.uuid = ''
+        this.options = {}
     }
 
     /**
