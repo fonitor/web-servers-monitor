@@ -1,4 +1,4 @@
-import Util from './util'
+import Util from './util/index'
 import * as error from './config/index'
 
 let util = new Util()

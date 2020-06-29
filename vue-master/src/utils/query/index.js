@@ -1,5 +1,4 @@
-import util from '../util'
-import Util from '../util'
+import Util from '../util/index'
 const util = new Util()
 
 /**
