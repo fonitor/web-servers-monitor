@@ -1,5 +1,8 @@
-export default class webLog {
+export default class jsLog {
     constructor() {
         super()
     }
+
+    
+
 }
