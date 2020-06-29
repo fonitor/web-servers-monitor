@@ -4,7 +4,7 @@ const util = Util.getInstance()
 /**
  * 定时任务，避免浏览器并发
  */
-export default class Query {
+export default class Queue {
     /**
      * 初始化
      * @param {*} options 
