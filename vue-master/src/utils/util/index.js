@@ -259,6 +259,7 @@ export default class Util {
 
     /**
      * 获取唯一uuid
+     * @return {?}
      */
     getUuid() {
         /** @type {number} */
@@ -368,6 +369,32 @@ export default class Util {
         } catch (e) {
             return str;
         }
+    }
+
+    /**
+     * http 报错解析
+     * @param {*} s 
+     * @return {?}
+     */
+    encryptObj(s) {
+        if (this.isType().isArray(s)) {
+            /** @type {!Array} */
+            var conf_shortcuts_icon = []
+            /** @type {number} */
+            var i = 0
+            for (; i < s.length; ++i) {
+                conf_shortcuts_icon[i] = this.encryptObj(s[i])
+            }
+            return conf_shortcuts_icon
+        }
+        if (this.isType().isPlainObject(s)) {
+            conf_shortcuts_icon = {}
+            for (i in s) {
+                conf_shortcuts_icon[i] = this.encryptObj(s[i])
+            }
+            return conf_shortcuts_icon
+        }
+        return 50 < (s = s + "").length && (s = s.substring(0, 10) + "****" + s.substring(s.length - 9, s.length)), s
     }
 }
 
