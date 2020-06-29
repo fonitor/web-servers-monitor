@@ -28,6 +28,8 @@ export default class Monitor {
         this.rows = window.location.href.split("?")[0].replace("#", "")
         this.createDebugClient = null
         this.current = -1 === window.location.href.indexOf("https") ? "http://" : "https://"
+        // http请求
+        this.timeRecordArray = []
     }
 
     /**
@@ -193,7 +195,6 @@ export default class Monitor {
      * @return {?}
      */
     recordHttpError() {
-        var timeRecordArray = []
         let oldXHR = window.XMLHttpRequest
 
         let ajaxEventTrigger = () => {
@@ -218,30 +219,6 @@ export default class Monitor {
             // }
             return realXHR;
         }
-        let handleHttpResult = (i, tempResponseText) => {
-            if (!timeRecordArray[i] || timeRecordArray[i].uploadFlag === true) {
-                return
-            }
-            let responseText = ""
-            try {
-                responseText = tempResponseText ? JSON.stringify(util.encryptObj(JSON.parse(tempResponseText))) : ""
-            } catch (e) {
-                responseText = ""
-            }
-            let simpleUrl = timeRecordArray[i].simpleUrl,
-                currentTime = new Date().getTime(),
-                url = timeRecordArray[i].event.detail.responseURL,
-                status = timeRecordArray[i].event.detail.status,
-                statusText = timeRecordArray[i].event.detail.statusText,
-                loadTime = currentTime - timeRecordArray[i].timeStamp;
-            // if (!url || url.indexOf(HTTP_UPLOAD_LOG_API) != -1) return
-            // let httpLogInfoStart = new HttpLogInfo(HTTP_LOG, simpleUrl, url, status, statusText, "发起请求", "", timeRecordArray[i].timeStamp, 0)
-            // httpLogInfoStart.handleLogInfo(HTTP_LOG, httpLogInfoStart);
-            // let httpLogInfoEnd = new HttpLogInfo(HTTP_LOG, simpleUrl, url, status, statusText, "请求返回", responseText, currentTime, loadTime)
-            // httpLogInfoEnd.handleLogInfo(HTTP_LOG, httpLogInfoEnd);
-            // 当前请求成功后就，就将该对象的uploadFlag设置为true, 代表已经上传了
-            timeRecordArray[i].uploadFlag = true
-        }
 
         window.XMLHttpRequest = newXHR
         window.addEventListener('ajaxLoadStart', (e) => {
@@ -251,39 +228,69 @@ export default class Monitor {
                 simpleUrl: window.location.href.split('?')[0].replace('#', ''),
                 uploadFlag: false,
             }
-            timeRecordArray.push(tempObj)
+            this.timeRecordArray.push(tempObj)
         })
 
         window.addEventListener('ajaxLoadEnd', _ => {
             /** @type {number} */
             let i = 0;
-            for (i; i < timeRecordArray.length; i++) {
+            for (i; i < this.timeRecordArray.length; i++) {
                 // uploadFlag == true 代表这个请求已经被上传过了
-                if (timeRecordArray[i].uploadFlag === true) continue
+                if (this.timeRecordArray[i].uploadFlag === true) continue
 
-                if (timeRecordArray[i].event.detail.status > 0) {
-                    let rType = (timeRecordArray[i].event.detail.responseType + "").toLowerCase()
+                if (this.timeRecordArray[i].event.detail.status > 0) {
+                    let rType = (this.timeRecordArray[i].event.detail.responseType + "").toLowerCase()
                     if (rType === "blob") {
                         (function (index) {
-                            let reader = new FileReader();
+                            let reader = new FileReader()
                             reader.onload = function () {
-                                let responseText = reader.result;//内容就在这里
-                                handleHttpResult(index, responseText);
+                                let responseText = reader.result //内容就在这里
+                                this.handleHttpResult(index, responseText)
                             }
                             try {
-                                reader.readAsText(timeRecordArray[i].event.detail.response, 'utf-8');
+                                reader.readAsText(this.timeRecordArray[i].event.detail.response, 'utf-8')
                             } catch (e) {
-                                handleHttpResult(index, timeRecordArray[i].event.detail.response + "");
+                                this.handleHttpResult(index, this.timeRecordArray[i].event.detail.response + "")
                             }
-                        })(i);
+                        })(i)
                     } else {
-                        let responseText = timeRecordArray[i].event.detail.responseText;
-                        handleHttpResult(i, responseText);
+                        let responseText = this.timeRecordArray[i].event.detail.responseText
+                        this.handleHttpResult(i, responseText)
                     }
                 }
             }
         })
     }
 
+    /**
+     * http 请求日志包装
+     * @param {*} i 
+     * @param {*} tempResponseText 
+     */
+    handleHttpResult(i, tempResponseText) {
+        let timeRecordArray = (util.isBlank(this.timeRecordArray) && util.isType().isArray(this.timeRecordArray)) ? this.timeRecordArray : []
+        if (!timeRecordArray[i] || timeRecordArray[i].uploadFlag === true) {
+            return
+        }
+        let responseText = ""
+        try {
+            responseText = tempResponseText ? JSON.stringify(util.encryptObj(JSON.parse(tempResponseText))) : ""
+        } catch (e) {
+            responseText = ""
+        }
+        let simpleUrl = timeRecordArray[i].simpleUrl,
+            currentTime = new Date().getTime(),
+            url = timeRecordArray[i].event.detail.responseURL,
+            status = timeRecordArray[i].event.detail.status,
+            statusText = timeRecordArray[i].event.detail.statusText,
+            loadTime = currentTime - timeRecordArray[i].timeStamp;
+        // if (!url || url.indexOf(HTTP_UPLOAD_LOG_API) != -1) return
+        // let httpLogInfoStart = new HttpLogInfo(HTTP_LOG, simpleUrl, url, status, statusText, "发起请求", "", timeRecordArray[i].timeStamp, 0)
+        // httpLogInfoStart.handleLogInfo(HTTP_LOG, httpLogInfoStart);
+        // let httpLogInfoEnd = new HttpLogInfo(HTTP_LOG, simpleUrl, url, status, statusText, "请求返回", responseText, currentTime, loadTime)
+        // httpLogInfoEnd.handleLogInfo(HTTP_LOG, httpLogInfoEnd);
+        // 当前请求成功后就，就将该对象的uploadFlag设置为true, 代表已经上传了
+        timeRecordArray[i].uploadFlag = true
+    }
 
 }
