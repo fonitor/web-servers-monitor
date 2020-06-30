@@ -4,7 +4,7 @@ import Qs from 'qs'
 
 // 创建axios实例
 const service = axios.create({
-    baseURL: '', // api的base_url
+    baseURL: 'https://ww.baidu.com', // api的base_url
     timeout: 5000                  // 请求超时时间
 })
 
@@ -26,7 +26,7 @@ service.interceptors.response.use(
         return Promise.resolve(response)
     },
     error => {
-        console.log('err' + error)// for debug
+        // console.log('err' + error)// for debug
         return Promise.reject(error)
     }
 )

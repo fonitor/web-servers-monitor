@@ -34,7 +34,7 @@ export default class jsLog {
                 errorType = errorStackStr.split(": ")[0].replace('"', "");
             }
             let javaScriptErrorInfo = this.javaScriptErrorInfo(error.JS_ERROR, errorType + ": " + errorMsg, errorObj)
-            console.log(javaScriptErrorInfo)
+            // console.log(javaScriptErrorInfo)
         }
 
         let jsMonitorStarted;
@@ -56,7 +56,7 @@ export default class jsLog {
 
         // 重写 onerror 进行jsError的监听
         window.onerror = (errorMsg, url, lineNumber, columnNumber, errorObj) => {
-            console.log(errorMsg)
+            // console.log(errorMsg)
             jsMonitorStarted = true
             let errorStack = errorObj ? errorObj.stack : null
             siftAndMakeUpMessage(errorMsg, url, lineNumber, columnNumber, errorStack)
