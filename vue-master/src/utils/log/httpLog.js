@@ -145,6 +145,27 @@ export default class httpLog {
     }
 
     /**
+     * httpError log
+     * @param {*} uploadType 
+     * @param {*} url 
+     * @param {*} status 
+     * @param {*} statusText 
+     * @param {*} statusResult 
+     * @param {*} currentTime 
+     * @param {*} loadTime 
+     */
+    httpLogInfo(uploadType, url, status, statusText, statusResult, currentTime, loadTime) {
+        let obj = JSON.parse(JSON.stringify(util.getCommonProperty()))
+        obj.uploadType = uploadType  // 上传类型
+        obj.httpUrl = utils.b64EncodeUnicode(encodeURIComponent(url)) // 请求地址
+        obj.status = status // 接口状态
+        obj.statusText = statusText // 状态描述
+        obj.statusResult = statusResult // 区分发起和返回状态
+        obj.happenTime = currentTime  // 客户端发送时间
+        obj.loadTime = loadTime // 接口请求耗时
+    }
+
+    /**
      * 重写window.fetch方法，为了能检测到浏览器api报错
      * @return {?}
      */
