@@ -15,7 +15,13 @@ import { getConfig } from './utils/api/logApi'
 
 setTimeout(() => {
   getConfig()
-}, 4000)
+}, 1000)
+setTimeout(() => {
+  getConfig()
+}, 2000)
+setTimeout(() => {
+  getConfig()
+}, 3000)
 
 // js 报错监控测试
 // setTimeout(() => {

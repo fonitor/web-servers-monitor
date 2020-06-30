@@ -3,7 +3,8 @@
 import Util from "../util"
 import * as error from '../config/index'
 
-const util = Util.getInstance()
+const util = Util.getInstance(),
+    cache = []
 
 export default class httpLog {
     constructor() {
@@ -28,10 +29,6 @@ export default class httpLog {
      */
     recordHttpError() {
         let XMLHttpRequest = window.XMLHttpRequest
-        let ajaxEventTrigger = () => {
-            let ajaxEvent = new CustomEvent(event, { detail: this });
-            window.dispatchEvent(ajaxEvent);
-        }
 
         /**
          * @param {string} name
@@ -41,8 +38,8 @@ export default class httpLog {
             /** @type {!CustomEvent} */
             var event = new CustomEvent(name, {
                 detail: this
-            });
-            window.dispatchEvent(event);
+            })
+            window.dispatchEvent(event)
         }
 
 
@@ -68,45 +65,91 @@ export default class httpLog {
         }
 
         window.addEventListener('ajaxLoadStart', (e) => {
-            console.log('进来了')
-            console.log(e)
             let tempObj = {
                 timeStamp: new Date().getTime(),
                 event: e,
                 simpleUrl: window.location.href.split('?')[0].replace('#', ''),
                 uploadFlag: false,
             }
-            this.timeRecordArray.push(tempObj)
+            cache.push(tempObj)
         })
+        let self = this
 
-        window.addEventListener('ajaxLoadEnd', _ => {
+        window.addEventListener('ajaxLoadEnd', (e) => {
             /** @type {number} */
             let i = 0;
-            for (i; i < this.timeRecordArray.length; i++) {
-                // uploadFlag == true 代表这个请求已经被上传过了
-                if (this.timeRecordArray[i].uploadFlag === true) continue
-
-                if (this.timeRecordArray[i].event.detail.status > 0) {
-                    let rType = (this.timeRecordArray[i].event.detail.responseType + "").toLowerCase()
-                    if (rType === "blob") {
-                        (function (index) {
-                            let reader = new FileReader()
+            console.log(cache)
+            for (i; i < cache.length; i++) {
+                if (true !== cache[i].uploadFlag) continue
+                if (cache[i].event.detail.status > 0) {
+                    if ("blob" === (cache[i].event.detail.responseType + "").toLowerCase()) {
+                        // 闭包
+                        !function (t) {
+                            /** @type {!FileReader} */
+                            let reader = new FileReader;
+                            /**
+                             * @return {undefined}
+                             */
                             reader.onload = function () {
-                                let responseText = reader.result //内容就在这里
-                                this.handleHttpResult(index, responseText)
-                            }
+                                /** @type {(ArrayBuffer|Blob|null|string)} */
+                                var result = reader.result;
+                                self.handleHttpResult(t, result);
+                            };
                             try {
-                                reader.readAsText(this.timeRecordArray[i].event.detail.response, 'utf-8')
+                                reader.readAsText(cache[i].event.detail.response, "utf-8");
                             } catch (e) {
-                                this.handleHttpResult(index, this.timeRecordArray[i].event.detail.response + "")
+                                self.handleHttpResult(t, cache[i].event.detail.response + "");
                             }
-                        })(i)
+                        }(i);
                     } else {
-                        let responseText = this.timeRecordArray[i].event.detail.responseText
-                        this.handleHttpResult(i, responseText)
+                        try {
+                            let response = cache[i] && cache[i].event && cache[i].event.detail;
+                            if (!response) {
+                                return;
+                            }
+                            let id = response.responseType;
+                            /** @type {string} */
+                            let result = "";
+                            if (!("" !== id && "text" !== id)) {
+                                result = response.responseText;
+                            }
+                            if ("json" === id) {
+                                /** @type {string} */
+                                result = JSON.stringify(response.response);
+                            }
+                            self.handleHttpResult(i, result);
+                        } catch (e) {
+                        }
                     }
                 }
             }
+            // console.log(this.timeRecordArray)
+            // for (i; i < this.timeRecordArray.length; i++) {
+            //     // uploadFlag == true 代表这个请求已经被上传过了
+            //     if (this.timeRecordArray[i].uploadFlag === true) continue
+            //     console.log(this.timeRecordArray[i].event.detail.status)
+            //     if (this.timeRecordArray[i].event.detail.status > 0) {
+            //         let rType = (this.timeRecordArray[i].event.detail.responseType + "").toLowerCase()
+            //         console.log(rType)
+            //         if (rType === "blob") {
+            //             (function (index) {
+            //                 let reader = new FileReader()
+            //                 reader.onload = function () {
+            //                     let responseText = reader.result //内容就在这里
+            //                     this.handleHttpResult(index, responseText)
+            //                 }
+            //                 try {
+            //                     reader.readAsText(this.timeRecordArray[i].event.detail.response, 'utf-8')
+            //                 } catch (e) {
+            //                     this.handleHttpResult(index, this.timeRecordArray[i].event.detail.response + "")
+            //                 }
+            //             })(i)
+            //         } else {
+            //             let responseText = this.timeRecordArray[i].event.detail.responseText
+            //             this.handleHttpResult(i, responseText)
+            //         }
+            //     }
+            // }
         })
 
         this.fetch()
@@ -121,29 +164,31 @@ export default class httpLog {
      * @param {*} tempResponseText 
      */
     handleHttpResult(i, tempResponseText) {
-        let timeRecordArray = (util.isBlank(this.timeRecordArray) && util.isType().isArray(this.timeRecordArray)) ? this.timeRecordArray : []
-        if (!timeRecordArray[i] || timeRecordArray[i].uploadFlag === true) {
-            return
-        }
-        let responseText = ""
-        try {
-            responseText = tempResponseText ? JSON.stringify(util.encryptObj(JSON.parse(tempResponseText))) : ""
-        } catch (e) {
-            responseText = ""
-        }
-        let simpleUrl = timeRecordArray[i].simpleUrl,
-            currentTime = new Date().getTime(),
-            url = timeRecordArray[i].event.detail.responseURL,
-            status = timeRecordArray[i].event.detail.status,
-            statusText = timeRecordArray[i].event.detail.statusText,
-            loadTime = currentTime - timeRecordArray[i].timeStamp;
+        console.log(i)
+        console.log(tempResponseText)
+        // let timeRecordArray = (util.isBlank(this.timeRecordArray) && util.isType().isArray(this.timeRecordArray)) ? this.timeRecordArray : []
+        // if (!timeRecordArray[i] || timeRecordArray[i].uploadFlag === true) {
+        //     return
+        // }
+        // let responseText = ""
+        // try {
+        //     responseText = tempResponseText ? JSON.stringify(util.encryptObj(JSON.parse(tempResponseText))) : ""
+        // } catch (e) {
+        //     responseText = ""
+        // }
+        // let simpleUrl = timeRecordArray[i].simpleUrl,
+        //     currentTime = new Date().getTime(),
+        //     url = timeRecordArray[i].event.detail.responseURL,
+        //     status = timeRecordArray[i].event.detail.status,
+        //     statusText = timeRecordArray[i].event.detail.statusText,
+        //     loadTime = currentTime - timeRecordArray[i].timeStamp;
         // if (!url || url.indexOf(HTTP_UPLOAD_LOG_API) != -1) return
         // let httpLogInfoStart = new HttpLogInfo(HTTP_LOG, simpleUrl, url, status, statusText, "发起请求", "", timeRecordArray[i].timeStamp, 0)
         // httpLogInfoStart.handleLogInfo(HTTP_LOG, httpLogInfoStart);
         // let httpLogInfoEnd = new HttpLogInfo(HTTP_LOG, simpleUrl, url, status, statusText, "请求返回", responseText, currentTime, loadTime)
         // httpLogInfoEnd.handleLogInfo(HTTP_LOG, httpLogInfoEnd);
         // 当前请求成功后就，就将该对象的uploadFlag设置为true, 代表已经上传了
-        timeRecordArray[i].uploadFlag = true
+        // timeRecordArray[i].uploadFlag = true
     }
 
     /**
