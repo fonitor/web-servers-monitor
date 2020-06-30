@@ -11,6 +11,12 @@ let monitor = new Monitor({
 
 Vue.config.productionTip = false
 
+import { getConfig } from './utils/api/logApi'
+
+setTimeout(() => {
+  getConfig()
+}, 4000)
+
 // js 报错监控测试
 // setTimeout(() => {
 //   console.log(ss)
