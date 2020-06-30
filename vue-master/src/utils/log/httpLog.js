@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import Util from "../util"
 import * as error from '../config/index'
 
@@ -157,7 +159,7 @@ export default class httpLog {
     httpLogInfo(uploadType, url, status, statusText, statusResult, currentTime, loadTime) {
         let obj = JSON.parse(JSON.stringify(util.getCommonProperty()))
         obj.uploadType = uploadType  // 上传类型
-        obj.httpUrl = utils.b64EncodeUnicode(encodeURIComponent(url)) // 请求地址
+        obj.httpUrl = util.b64EncodeUnicode(encodeURIComponent(url)) // 请求地址
         obj.status = status // 接口状态
         obj.statusText = statusText // 状态描述
         obj.statusResult = statusResult // 区分发起和返回状态
@@ -712,3 +714,5 @@ export default class httpLog {
         window.fetch.polyfill = true;
     }
 }
+
+/* eslint-enable */
