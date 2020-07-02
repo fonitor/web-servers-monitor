@@ -153,30 +153,28 @@ export default class httpLog {
             loadTime = currentTime - cache[i].timeStamp;
 
         if (!url) return
-        console.log('sss')
-        let httpLogInfoStart = this.httpLogInfo(error.HTTP_LOG, simpleUrl, url, status, statusText, "发起请求", "", timeRecordArray[i].timeStamp, 0)
+        let httpLogInfoStart = this.httpLogInfo(error.HTTP_LOG, simpleUrl, status, statusText, "发起请求", responseText, cache[i].timeStamp, 0)
         console.log(httpLogInfoStart)
         // httpLogInfoStart.handleLogInfo(error.HTTP_LOG, httpLogInfoStart)
-        let httpLogInfoEnd = this.httpLogInfo(error.HTTP_LOG, simpleUrl, url, status, statusText, "请求返回", responseText, currentTime, loadTime)
+        let httpLogInfoEnd = this.httpLogInfo(error.HTTP_LOG, simpleUrl, status, statusText, "请求返回", responseText, currentTime, loadTime)
         // httpLogInfoEnd.handleLogInfo(error.HTTP_LOG, httpLogInfoEnd)
         // 当前请求成功后就，就将该对象的uploadFlag设置为true, 代表已经上传了
         cache[i].uploadFlag = true
-        console.log(cache)
     }
 
     /**
      * httpError log
-     * @param {*} uploadType 
-     * @param {*} url 
-     * @param {*} status 
+     * @param {*} uploadType 上传类型
+     * @param {*} url 请求地址
+     * @param {*} status 接口状态
      * @param {*} statusText 
      * @param {*} statusResult 
+     * @param {*} responseText
      * @param {*} currentTime 
      * @param {*} loadTime 
      */
-    httpLogInfo(uploadType, url, status, statusText, statusResult, currentTime, loadTime) {
+    httpLogInfo(uploadType, url, status, statusText, statusResult, responseText, currentTime, loadTime) {
         let obj = JSON.parse(JSON.stringify(util.getCommonProperty()))
-        console.log(obj)
         obj.uploadType = uploadType  // 上传类型
         obj.httpUrl = util.b64EncodeUnicode(encodeURIComponent(url)) // 请求地址
         obj.status = status // 接口状态
@@ -184,7 +182,7 @@ export default class httpLog {
         obj.statusResult = statusResult // 区分发起和返回状态
         obj.happenTime = currentTime  // 客户端发送时间
         obj.loadTime = loadTime // 接口请求耗时
-        console.log(obj)
+        obj.responseText = responseText // 接口返回数据
         return obj
     }
 
