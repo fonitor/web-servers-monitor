@@ -2,8 +2,10 @@ import Util from './util/index'
 import jsLog from './log/jsLog'
 import rescourceLog from './log/rescourceLog'
 import httpLog from './log/httpLog'
+import Queue from './queue'
 
 const util = Util.getInstance()
+const queue = Queue.getInstance({})
 
 export default class Monitor {
     constructor(options) {
@@ -28,8 +30,37 @@ export default class Monitor {
         util.getCustomerKey()
         // 存储ip地址
         util.getIp()
-        // // http请求
-        // this.timeRecordArray = []
+        this.ceshi()
+        this.ceshi()
+        this.ceshi()
+        this.ceshi()
+        this.ceshi()
+        this.ceshi()
+        this.ceshi()
+        this.ceshi()
+        this.ceshi()
+        this.ceshi()
+        this.ceshi()
+        this.ceshi()
+        this.ceshi()
+        this.ceshi()
+        this.ceshi()
+        this.ceshi()
+        this.ceshi()
+        this.ceshi()
+        console.log(queue.requestQueue)
+    }
+
+    ceshi() {
+        for (let i = 0; i < 20; i++) {
+            queue.pushToQueue({
+                ceshi: 1,
+                handleLog: (t) => {
+                    console.log(`测试发送${i}`)
+                    t.synNum--
+                }
+            })
+        }
     }
 
     
