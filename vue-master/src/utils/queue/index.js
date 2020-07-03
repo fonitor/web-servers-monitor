@@ -18,7 +18,7 @@ export default class Queue {
         }
         // 进行参数合并
         config = (util.isBlank(options) && util.isType().isPlainObject(options)) ? Object.assign(console, options) : config
-        
+
         // 是否开启队列
         this.isOpen = config.isOpen
         // 队列
@@ -79,7 +79,7 @@ export default class Queue {
      */
     delay(fun, e) {
         if (!util.isType().isfunction(fun)) return null
-        return e === -1 ? (fun(), null): setTimeout(fun, e || 0)
+        return e === -1 ? (fun(), null) : setTimeout(fun, e || 0)
     }
 
     /**
@@ -88,7 +88,7 @@ export default class Queue {
      */
     clear() {
         var e
-        if(this.synNum > this.synRequest) {
+        if (this.synNum > this.synRequest) {
             return clearTimeout(this.requestTimmer), this.requestTimmer = setTimeout(() => {
                 this.clear()
             }, 50)
@@ -100,7 +100,7 @@ export default class Queue {
         !!this.requestQueue.length && (this.requestTimmer = setTimeout(() => {
             this.clear()
         }, 50))
-        
+
     }
 
     /**
