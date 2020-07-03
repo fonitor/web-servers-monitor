@@ -13,7 +13,7 @@ export default class Queue {
     constructor(options) {
         let config = {
             isOpen: true,
-            synRequest: 4,
+            synRequestNum: 4,
             ver: '1.0.0'
         }
         // 进行参数合并
@@ -26,7 +26,7 @@ export default class Queue {
         this.requestTimmer = undefined
         // 队列控制并发数（暂定定4，后续可以根据浏览器io来决定给浏览器不同的策略）
         // https://www.cnblogs.com/sunsky303/p/8862128.html
-        this.synRequest = config.synRequest
+        this.synRequestNum = config.synRequestNum
         // 版本号
         this.ver = config.ver
         this.synNum = 0
@@ -88,12 +88,12 @@ export default class Queue {
      */
     clear() {
         var e
-        if (this.synNum > this.synRequest) {
+        if (this.synNum > this.synRequestNum) {
             return clearTimeout(this.requestTimmer), this.requestTimmer = setTimeout(() => {
                 this.clear()
             }, 50)
         }
-        for (clearTimeout(this.requestTimmer), this.requestTimmer = null; this.synNum < this.synRequest && (e = this.requestQueue.pop()); this.synNum++) {
+        for (clearTimeout(this.requestTimmer), this.requestTimmer = null; this.synNum < this.synRequestNum && (e = this.requestQueue.pop()); this.synNum++) {
             e.handleLog(this.reduceSynNumFun)
         }
         // 执行完如果还有数据则继续执行（放到宏任务）
