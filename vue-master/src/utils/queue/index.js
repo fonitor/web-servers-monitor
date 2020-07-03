@@ -110,6 +110,7 @@ export default class Queue {
     clearAll() {
         this.requestQueue = []
         this.requestTimmer = null
+        this.synNum = 0
     }
 
 }
