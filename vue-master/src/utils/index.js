@@ -55,9 +55,9 @@ export default class Monitor {
         for (let i = 0; i < 20; i++) {
             queue.pushToQueue({
                 ceshi: 1,
-                handleLog: (t) => {
+                handleLog: (fun) => {
                     console.log(`测试发送${i}`)
-                    t.synNum--
+                    if (util.isType().isfunction(fun)) fun()
                 }
             })
         }

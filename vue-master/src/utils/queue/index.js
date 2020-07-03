@@ -56,7 +56,7 @@ export default class Queue {
             return this.onReady(() => {
                 this.requestTimmer = this.delay(() => {
                     this.clear()
-                }, this.requestQueue[0] && this.requestQueue[0] == 'error' ? 3e3 : -1)
+                }, this.requestQueue[0] && (!!this.requestQueue[0].uploadType && this.requestQueue[0].uploadType == 'error') ? 3e3 : -1)
             })
         }
     }
@@ -93,8 +93,8 @@ export default class Queue {
                 this.clear()
             }, 50)
         }
-        for (clearTimeout(this.requestTimmer), this.requestTimmer = null; this.synNum < this.synRequest && (e = this.requestQueue.pop()); this.synNum ++) {
-            e.handleLog(this)
+        for (clearTimeout(this.requestTimmer), this.requestTimmer = null; this.synNum < this.synRequest && (e = this.requestQueue.pop()); this.synNum++) {
+            e.handleLog(this.reduceSynNumFun)
         }
         // 执行完如果还有数据则继续执行（放到宏任务）
         !!this.requestQueue.length && (this.requestTimmer = setTimeout(() => {
@@ -111,6 +111,15 @@ export default class Queue {
         this.requestQueue = []
         this.requestTimmer = null
         this.synNum = 0
+    }
+
+    /**
+     * 并发数减一
+     * @return {?}
+     */
+    reduceSynNumFun() {
+        Queue.instance.synNum--
+        return this
     }
 
 }
