@@ -436,7 +436,7 @@ export default class Util {
         // TODO 位置信息, 待处理
         logObj.province = ""  // 用户所在省份
         logObj.city = ""  // 用户所在城市
-        // // 用户自定义信息， 由开发者主动传入， 便于对线上进行准确定位
+        // 用户自定义信息， 由开发者主动传入， 便于对线上进行准确定位
         logObj.userId = userInfo.userId || null
         logObj.firstUserParam = userInfo.firstUserParam || null
         logObj.secondUserParam = userInfo.secondUserParam || null

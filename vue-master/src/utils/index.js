@@ -13,7 +13,7 @@ export default class Monitor {
 
     /**
      * 初始化
-     * @param {*} options { monitorUser: 项目配置用户, WEB_MONITOR_ID: 项目id }
+     * @param {*} options { monitorUser: {userId: 用户ID, firstUserParam: 用户自定义配置，secondUserParam: 第二个参数}, WEB_MONITOR_ID: 项目id }
      */
     constructor(options) {
         // 初始化框架基础参数
