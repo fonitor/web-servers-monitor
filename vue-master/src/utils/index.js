@@ -30,39 +30,7 @@ export default class Monitor {
         util.getCustomerKey()
         // 存储ip地址
         util.getIp()
-        this.ceshi()
-        this.ceshi()
-        this.ceshi()
-        this.ceshi()
-        this.ceshi()
-        this.ceshi()
-        this.ceshi()
-        this.ceshi()
-        this.ceshi()
-        this.ceshi()
-        this.ceshi()
-        this.ceshi()
-        this.ceshi()
-        this.ceshi()
-        this.ceshi()
-        this.ceshi()
-        this.ceshi()
-        this.ceshi()
-        console.log(queue.requestQueue)
     }
-
-    ceshi() {
-        for (let i = 0; i < 20; i++) {
-            queue.pushToQueue({
-                ceshi: 1,
-                handleLog: (fun) => {
-                    console.log(`测试发送${i}`)
-                    if (util.isType().isfunction(fun)) fun()
-                }
-            })
-        }
-    }
-
     
     /**
      * 运行监听
