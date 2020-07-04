@@ -17,7 +17,7 @@ export default class Monitor {
      */
     constructor(options) {
         // 初始化框架基础参数
-        this.options = (options === null || options === undefined || options === "") ?  {} : options
+        this.options = (options === null || options === undefined || options === "") ?  options : {}
 
         let utilConfig = {
             monitorUser: this.options.monitorUser || {},
@@ -25,8 +25,6 @@ export default class Monitor {
         }
 
         util = Util.getInstance(utilConfig)
-
-        
 
         window.onload = () => {
             this.init()
