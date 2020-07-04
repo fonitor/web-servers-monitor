@@ -4,7 +4,12 @@
  * 工具类
  */
 export default class Util {
-    constructor() {
+    
+    /**
+     * 基础配置
+     * @param {*} options 
+     */
+    constructor(options) {
         let device = {},
             ua = navigator.userAgent
         device.ios = device.android = device.iphone = device.ipad = device.androidChrome = false
@@ -18,16 +23,17 @@ export default class Util {
         this.monitorIp = ''
         this.country = ''
         this.uuid = ''
-        this.options = {}
+        this.options = this.isBlank(options) ? options : {}
     }
 
     /**
      * 单例
+     * @param {*} options
      * @return {?}
      */
-    static getInstance() {
+    static getInstance(options = {}) {
         if (!Util.instance) {
-            Util.instance = new Util()
+            Util.instance = new Util(options)
         }
         return Util.instance
     }
@@ -179,7 +185,6 @@ export default class Util {
     isBlank(obj) {
         return obj === null || obj === undefined || obj === "";
     }
-
 
     /**
      * 解析url中拼接的参数

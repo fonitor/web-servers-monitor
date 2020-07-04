@@ -1,17 +1,32 @@
+/* eslint-disable */
+
 import Util from './util/index'
 import jsLog from './log/jsLog'
 import rescourceLog from './log/rescourceLog'
 import httpLog from './log/httpLog'
 import Queue from './queue'
 
-const util = Util.getInstance()
-const queue = Queue.getInstance({})
+let util = null
+let queue = null
 
 export default class Monitor {
+
+    /**
+     * 初始化
+     * @param {*} options { monitorUser: 项目配置用户, WEB_MONITOR_ID: 项目id }
+     */
     constructor(options) {
-       
         // 初始化框架基础参数
-        this.options = util.isType().isPlainObject(options) ? options : {}
+        this.options = (options === null || options === undefined || options === "") ?  {} : options
+
+        let utilConfig = {
+            monitorUser: this.options.monitorUser || {},
+            WEB_MONITOR_ID: this.options.WEB_MONITOR_ID || ""
+        }
+
+        util = Util.getInstance(utilConfig)
+
+        
 
         window.onload = () => {
             this.init()
@@ -54,3 +69,5 @@ export default class Monitor {
     }
 
 }
+
+/* eslint-enable */
