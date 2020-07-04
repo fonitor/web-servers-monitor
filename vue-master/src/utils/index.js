@@ -42,10 +42,7 @@ export default class Monitor {
         rescourceLog.getInstance().recordResourceError()
         // http 请求监控
         httpLog.getInstance().recordHttpError()
-        // window.addEventListener('hashchange', (e) => {
-        //     console.log('ceshi1')
-        //     console.log(e)
-        // })
+
     }
 
     /**
