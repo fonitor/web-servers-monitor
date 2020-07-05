@@ -26,7 +26,7 @@ export default class Queue {
         this.requestTimmer = undefined
         // 队列控制并发数（暂定定4，后续可以根据浏览器io来决定给浏览器不同的策略）
         // https://www.cnblogs.com/sunsky303/p/8862128.html
-        this.synRequestNum = config.synRequestNum
+        this.synRequestNum = util.isBlank(config.synRequestNum) ? config.synRequestNum : 4
         // 版本号
         this.ver = config.ver
         this.synNum = 0

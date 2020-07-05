@@ -7,13 +7,12 @@ import httpLog from './log/httpLog'
 import Queue from './queue'
 
 let util = null
-let queue = null
 
 export default class Monitor {
 
     /**
      * 初始化
-     * @param {*} options { monitorUser: {userId: 用户ID, firstUserParam: 用户自定义配置，secondUserParam: 第二个参数}, WEB_MONITOR_ID: 项目id }
+     * @param {*} options { monitorUser: {userId: 用户ID, firstUserParam: 用户自定义配置，secondUserParam: 第二个参数}, WEB_MONITOR_ID: 项目id, synRequestNum: 定时任务 }
      */
     constructor(options) {
         // 初始化框架基础参数
@@ -24,7 +23,11 @@ export default class Monitor {
             WEB_MONITOR_ID: this.options.WEB_MONITOR_ID || ""
         }
 
+        let queueConfig = {
+            synRequestNum: this.options.synRequestNum || null
+        }
         util = Util.getInstance(utilConfig)
+        Queue.getInstance(queueConfig)
 
         window.onload = () => {
             this.init()
