@@ -6,7 +6,7 @@ import store from './store'
 import Monitor from './utils/index'
 /* eslint-disable */
 let monitor = new Monitor({
-  
+
 })
 
 Vue.config.productionTip = false
@@ -27,6 +27,16 @@ Vue.config.productionTip = false
 // setTimeout(() => {
 //   console.log(ss)
 // }, 3000)
+
+setTimeout(() => {
+  fetch('http://www.guaishou.com/applet/text/charge')
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (myJson) {
+      console.log(myJson);
+    });
+}, 3000)
 
 new Vue({
   router,

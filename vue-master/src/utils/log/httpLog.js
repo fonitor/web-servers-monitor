@@ -658,7 +658,7 @@ export default class httpLog {
          * @return {?}
          */
         window.fetch = function (method, url) {
-            return fetchHttpUrl = method, new Promise(function (resolve, reject) {
+            return method, new Promise(function (resolve, reject) {
                 var request = new Request(method, url);
                 /** @type {!XMLHttpRequest} */
                 var xhr = new XMLHttpRequest;
