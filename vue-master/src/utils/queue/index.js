@@ -6,7 +6,7 @@ const util = Util.getInstance()
  * 定时任务，避免浏览器并发
  */
 export default class Queue {
-    /**
+     /**
      * 初始化
      * @param {*} options 
      */
@@ -17,7 +17,7 @@ export default class Queue {
             ver: '1.0.0'
         }
         // 进行参数合并
-        config = (util.isBlank(options) && util.isType().isPlainObject(options)) ? Object.assign(console, options) : config
+        config = (!util.isBlank(options) && util.isType().isPlainObject(options)) ? Object.assign(config, options) : config
 
         // 是否开启队列
         this.isOpen = config.isOpen
@@ -26,7 +26,7 @@ export default class Queue {
         this.requestTimmer = undefined
         // 队列控制并发数（暂定定4，后续可以根据浏览器io来决定给浏览器不同的策略）
         // https://www.cnblogs.com/sunsky303/p/8862128.html
-        this.synRequestNum = util.isBlank(config.synRequestNum) ? config.synRequestNum : 4
+        this.synRequestNum = !util.isBlank(config.synRequestNum) ? config.synRequestNum : 4
         // 版本号
         this.ver = config.ver
         this.synNum = 0
@@ -34,14 +34,18 @@ export default class Queue {
 
     /**
      * 单例
+     * @param {*} structure 构造
      * @param {*} option config配置
      * @return {?}
      */
-    static getInstance(option) {
-        if (!Queue.instance) {
-            Queue.instance = new Queue(option)
+    static getInstance(structure, option) {
+        if (!Queue.instance || !Queue.instance[structure]) {
+            if (!Queue.instance) {
+                Queue.instance = {}
+            }
+            Queue.instance[structure] = new Queue(option)
         }
-        return Queue.instance
+        return Queue.instance[structure]
     }
 
     /**

@@ -27,7 +27,7 @@ export default class Monitor {
             synRequestNum: this.options.synRequestNum || null
         }
         util = Util.getInstance(utilConfig)
-        Queue.getInstance(queueConfig)
+        Queue.getInstance('web', queueConfig)
 
         window.onload = () => {
             this.init()
