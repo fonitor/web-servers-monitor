@@ -23,7 +23,7 @@ export default class Util {
         this.monitorIp = ''
         this.country = ''
         this.uuid = ''
-        this.options = this.isBlank(options) ? options : {}
+        this.options = !this.isBlank(options) ? options : {}
     }
 
     /**
