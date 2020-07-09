@@ -1,5 +1,0 @@
-# node-express
-
-### orm
-
-- sequelize
