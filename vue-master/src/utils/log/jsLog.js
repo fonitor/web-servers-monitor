@@ -34,7 +34,7 @@ export default class jsLog {
                 errorType = errorStackStr.split(": ")[0].replace('"', "");
             }
             let javaScriptErrorInfo = this.javaScriptErrorInfo(error.JS_ERROR, errorType + ": " + errorMsg, errorObj)
-            // console.log(javaScriptErrorInfo)
+            console.log(javaScriptErrorInfo)
         }
 
         let jsMonitorStarted;

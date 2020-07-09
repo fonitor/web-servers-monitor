@@ -44,7 +44,8 @@ export default class rescourceLog {
             }
             if (sourceUrl) sourceUrl = util.b64EncodeUnicode(encodeURIComponent(sourceUrl))
 
-            this.resourceErrorInfo(error.RESOURCE_LOAD, sourceUrl, typeName)
+            let resoureErrorInfo = this.resourceErrorInfo(error.RESOURCE_LOAD, sourceUrl, typeName)
+            console.log(resoureErrorInfo)
         }, true);
     }
 

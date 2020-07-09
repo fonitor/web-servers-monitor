@@ -29,11 +29,9 @@ export default class Monitor {
         util = Util.getInstance(utilConfig)
         Queue.getInstance('web', queueConfig)
 
-        window.onload = () => {
-            this.init()
-            // this.content()
-            this.run()
-        }
+        this.init()
+        // this.content()
+        this.run()
     }
 
     /**
@@ -58,6 +56,7 @@ export default class Monitor {
         rescourceLog.getInstance().recordResourceError()
         // http 请求监控
         httpLog.getInstance().recordHttpError()
+       
 
     }
 
