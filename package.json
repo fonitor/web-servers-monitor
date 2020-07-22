@@ -1,5 +1,5 @@
 {
-  "name": "node-express",
+  "name": "web-servers-monitor",
   "version": "0.0.0",
   "private": true,
   "scripts": {
