@@ -16,14 +16,14 @@ let http = axios.create()
  * @param {object} formData
  * @param {object} config
  */
-function postForm (url, formData = {}, config = {}) {
-  return http.post(url, querystring.stringify(formData), {
-    ...config,
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      ..._.get(config, ['headers'], {})
-    }
-  })
+function postForm(url, formData = {}, config = {}) {
+    return http.post(url, querystring.stringify(formData), {
+        ...config,
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            ..._.get(config, ['headers'], {})
+        }
+    })
 }
 http.postForm = postForm
 
