@@ -44,3 +44,25 @@ function getLogger(loggerType = 'express', loggerConfig = baseLoggerConfig) {
     }
 }
 
+let logger4Express = getLogger(`express`, baseLoggerConfig)
+
+/**
+ * 简易logger
+ */
+function log() {
+    let message = ''
+    for (let rawMessage of arguments) {
+        if (_.isString(rawMessage) === false) {
+            message = message + JSON.stringify(rawMessage)
+        } else {
+            message = message + rawMessage
+        }
+    }
+    let triggerAt = moment().format(DATE_FORMAT.DISPLAY_BY_MILLSECOND)
+    console.log(`[${triggerAt}]-[runtime] ` + message)
+    logger4Express.info(message)
+}
+
+export default {
+    log
+}
