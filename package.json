@@ -26,5 +26,9 @@
     "sequelize": "^6.3.3",
     "shelljs": "^0.8.4",
     "ua-parser-js": "^0.7.21"
+  },
+  "devDependencies": {
+    "babel-preset-env": "^1.7.0",
+    "babel-register": "^6.26.0"
   }
 }

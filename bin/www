@@ -4,6 +4,10 @@
  * Module dependencies.
  */
 
+require('babel-register')({
+  presets: ['env']
+});
+
 var app = require('../app');
 var debug = require('debug')('web-servers-monitor:server');
 var http = require('http');
