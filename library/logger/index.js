@@ -84,6 +84,8 @@ function log() {
     logger4Express.info(message)
 }
 
+let info = log // 别名
+
 /**
 * 简易logger
 * @returns  null
@@ -104,5 +106,6 @@ function warn() {
 
 export default {
     log,
+    info,
     warn
 }
