@@ -104,8 +104,27 @@ function warn() {
     logger4Express.warn(message + ` => ${getStackInfoString()}`)
 }
 
+/**
+* 简易logger
+* @returns  null
+*/
+function error() {
+    let message = ''
+    for (let rawMessage of arguments) {
+        if (_.isString(rawMessage) === false) {
+            message = message + JSON.stringify(rawMessage)
+        } else {
+            message = message + rawMessage
+        }
+    }
+    let triggerAt = moment().format(DATE_FORMAT.DISPLAY_BY_MILLSECOND)
+    console.error(`[${triggerAt}]-[runtime] ` + message + ` => ${getStackInfoString()}`)
+    logger4Express.error(message + ` => ${getStackInfoString()}`)
+}
+
 export default {
     log,
     info,
-    warn
+    warn,
+    error
 }
