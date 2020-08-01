@@ -47,6 +47,27 @@ function getLogger(loggerType = 'express', loggerConfig = baseLoggerConfig) {
 let logger4Express = getLogger(`express`, baseLoggerConfig)
 
 /**
+ * 追踪日志输出文件名,方法名,行号等信息
+ * @returns Object
+ */
+function getStackInfoString() {
+    let stackReg = /at\s+(.*)\s+\((.*):(\d*):(\d*)\)/i
+    let stackReg2 = /at\s+()(.*):(\d*):(\d*)/i
+    let stacklist = (new Error()).stack.split('\n').slice(3)
+    let s = stacklist[0]
+    let sp = stackReg.exec(s) || stackReg2.exec(s)
+    let data = {}
+    if (sp && sp.length === 5) {
+        data.method = sp[1]
+        data.path = sp[2]
+        data.line = sp[3]
+        data.pos = sp[4]
+        data.file = path.basename(data.path)
+    }
+    return JSON.stringify(data)
+}
+
+/**
  * 简易logger
  */
 function log() {
@@ -63,6 +84,25 @@ function log() {
     logger4Express.info(message)
 }
 
+/**
+* 简易logger
+* @returns  null
+*/
+function warn() {
+    let message = ''
+    for (let rawMessage of arguments) {
+        if (_.isString(rawMessage) === false) {
+            message = message + JSON.stringify(rawMessage)
+        } else {
+            message = message + rawMessage
+        }
+    }
+    let triggerAt = moment().format(DATE_FORMAT.DISPLAY_BY_MILLSECOND)
+    console.warn(`[${triggerAt}]-[runtime] ` + message + ` => ${getStackInfoString()}`)
+    logger4Express.warn(message + ` => ${getStackInfoString()}`)
+}
+
 export default {
-    log
+    log,
+    warn
 }
