@@ -44,6 +44,36 @@ function getLogger(loggerType = 'express', loggerConfig = baseLoggerConfig) {
     }
 }
 
+/**
+ * 为Commande类提供Logger
+ * @param {*} commandName
+ */
+function getLogger4Command(commandName = 'unsetCommandName') {
+    let loggerConfig = {
+        appenders: {
+            command: {
+                type: 'dateFile',
+                filename: `${config.absoluteLogPath}/command/${commandName}`,
+                pattern: '-yyyy-MM-dd.log',
+                alwaysIncludePattern: true
+            },
+            express: {
+                type: 'dateFile',
+                filename: `${config.absoluteLogPath}/express/runtime`,
+                pattern: '-yyyy-MM-dd.log',
+                alwaysIncludePattern: true
+            }
+        },
+        categories: {
+            default: { appenders: ['express'], level: 'info' },
+            command: { appenders: ['command'], level: 'info' },
+            express: { appenders: ['express'], level: 'info' }
+        }
+    }
+
+    return getLogger(`command`, loggerConfig)
+}
+
 let logger4Express = getLogger(`express`, baseLoggerConfig)
 
 /**
@@ -123,6 +153,7 @@ function error() {
 }
 
 export default {
+    getLogger4Command,
     log,
     info,
     warn,
