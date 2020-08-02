@@ -78,3 +78,5 @@ class Base extends Command {
         logger.warn(message)
     }
 }
+
+export default Base
