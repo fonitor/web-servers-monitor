@@ -1,9 +1,4 @@
-require('babel-register')({
-    presets: ['env']
-})
-
-var ace = require('@adonisjs/ace')
-
+import '@babel/polyfill'
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +9,7 @@ var ace = require('@adonisjs/ace')
 | Here we setup the environment and register ace commands.
 |
 */
+import ace from '@adonisjs/ace'
 
 const registedCommandList = [
     './commands/demo', // 命令demo测试
