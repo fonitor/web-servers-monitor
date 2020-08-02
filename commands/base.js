@@ -27,13 +27,17 @@ class Base extends Command {
      * @param options
      * @returns {Promise<void>}
      */
-    async handle(args, options) {
-        this.log('command start')
-        await this.execute(args, options).catch(e => {
-            this.log('catch error')
-            this.log(e.stack)
-        })
-        this.log('command finish')
+        async handle(args, options) {
+            this.log('command start')
+            await this.execute(args, options).catch(e => {
+                this.log('catch error')
+                this.log(e.stack)
+            })
+            this.log('command finish')
+        }
+
+    async execute(args, options) {
+
     }
 
     /**
