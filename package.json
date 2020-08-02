@@ -19,6 +19,7 @@
     "http-errors": "~1.6.3",
     "ip2region": "^1.7.0",
     "ipip-datx": "^0.2.2",
+    "knex": "^0.21.2",
     "lodash": "^4.17.19",
     "log4js": "^6.3.0",
     "moment": "^2.27.0",
