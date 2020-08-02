@@ -75,6 +75,39 @@ class RedisClient {
             Logger.log(...arguments)
         }
     }
+
+    /**
+     * 获取key
+     * @param {*} key 
+     */
+    async asyncGet(key) {
+        await this._autoConnect()
+        let resultJson = await this.redisClient.get(key).catch(e => {
+            Logger.log('Redis异常=>')
+            Logger.log(e)
+            return ''
+        })
+        await this._autoDisconnect()
+        return result
+    }
+
+    /**
+     * 设值
+     * @param {*} key 
+     * @param {*} expire 
+     * @param {*} value 
+     */
+    async asyncSetex(key, expire, value) {
+        this._autoConnect()
+        let valueJSON = JSON.stringify(value)
+        let result = await this.redisClient.setex(key, expire, valueJSON).catch(e => {
+            Logger.log('Redis异常=>')
+            Logger.log(e)
+        })
+        await this._autoDisconnect()
+        return result
+    }
+
 }
 
 let client = new RedisClient()
