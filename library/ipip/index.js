@@ -13,6 +13,10 @@ function isIp(ip) {
     return /^(([1-9]?\d|1\d\d|2[0-4]\d|25[0-5])(\.(?!$)|$)){4}$/.test(ip)
 }
 
+/**
+ * 获取省市区
+ * @param {*} ip 
+ */
 function ip2Locate(ip) {
     let country = ''
     let province = ''

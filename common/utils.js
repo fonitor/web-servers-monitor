@@ -1,14 +1,16 @@
+import LIpip from '../library/ipip'
+
 /**
  * 工具类
  */
 export default class Util {
-    
+
     /**
      * 基础配置
      * @return {?}
      */
     constructor() {
-        
+
     }
 
     /**
@@ -155,5 +157,49 @@ export default class Util {
         return location.href;
     }
 
+    /**
+     * 处理空对象
+     * @example {a: 1, b: undefined} => {a:1}
+     * @param {*} obj 
+     */
+    handleEmptyData(obj = {}) {
+        var newObj = {}
+        if (typeof (obj) === 'object') {
+            Object.keys(obj).map(key => {
+                if (obj[key]) {
+                    newObj[key] = obj[key]
+                }
+            })
+        }
+        return newObj
+    }
 
+    /**
+     * 延迟执行函数, 返回一个 Promise
+     * @param {*} ms 
+     */
+    sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms))
+    }
+
+    /**
+     * 对象转化为键值对
+     * @param {*} obj 
+     */
+    objectToArray(obj) {
+        return Object.keys(obj).map(key => {
+            return {
+                key: key,
+                value: obj[key]
+            }
+        })
+    }
+
+    /**
+     * 获取省市区
+     * @param {*} ip 
+     */
+    getIp(ip) {
+        return LIpip.ip2Locate(ip)
+    }
 }
