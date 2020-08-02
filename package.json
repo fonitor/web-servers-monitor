@@ -17,6 +17,7 @@
     "elasticsearch": "^16.7.1",
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
+    "ioredis": "^4.17.3",
     "ip2region": "^1.7.0",
     "ipip-datx": "^0.2.2",
     "knex": "^0.21.2",
