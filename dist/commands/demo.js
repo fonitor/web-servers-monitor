@@ -56,3 +56,4 @@ class CommandDemo extends _base.default {
 
 var _default = CommandDemo;
 exports.default = _default;
+//# sourceMappingURL=demo.js.map

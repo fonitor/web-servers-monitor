@@ -37,3 +37,4 @@ const Knex = (0, _knex.default)({
 
   }
 });
+//# sourceMappingURL=index.js.map
