@@ -13,36 +13,39 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+// npm run fee Command:Demo user ceshi --onlyFlag false
 class CommandDemo extends _base.default {
   static get signature() {
     return `
-         Command:Demo 
-         
-         {--onlyFlag:[必传]flag,只有true/false两个值} 
-         {--logName=@value:[必传]日志文件名} 
-         {--isTest?=@value:[可选]是否处于测试环境}
+            Command:Demo 
+            {user:[必传]用户名}
+            {name?:[可选]称谓}
+
+            {--onlyFlag:[必传]flag,只有true/false两个值} 
+
          `;
   }
 
   static get description() {
-    return '解析kafka日志, 分析pv';
+    return '测试demo';
   }
 
   execute(args, options) {
     var _this = this;
 
     return _asyncToGenerator(function* () {
+      console.log('测试');
+      console.log(args);
+      console.log(options);
       let {
         onlyFlag,
         logName,
         isTest
       } = options;
 
-      _this.log(`CommandDemo, onlyFlag=> ${onlyFlag}`);
-
-      _this.log(`CommandDemo, logName=> ${logName}`);
-
-      _this.log(`CommandDemo, isTest=> ${isTest}`); // let i = 0
+      _this.log(`CommandDemo, onlyFlag=> ${onlyFlag}`); // this.log(`CommandDemo, logName=> ${logName}`)
+      // this.log(`CommandDemo, isTest=> ${isTest}`)
+      // let i = 0
       // while (1) {
       //   i++
       //   await sleep(1)
