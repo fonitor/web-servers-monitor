@@ -7,7 +7,7 @@
     "server": "node-dev ./dist/app.js",
     "watch": "babel src --copy-files --watch --out-dir dist  --ignore src/public --verbose --source-maps",
     "build": "babel src --copy-files -d dist --verbose",
-    "fee": "NODE_ENV=production node dist/command.js"
+    "commone": "NODE_ENV=production node dist/command.js"
   },
   "dependencies": {
     "@adonisjs/ace": "^5.0.8",
