@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
-    "server": "node-dev ./bin/www",
+    "start": "node-dev ./dist/app.js",
+    "watch": "babel src --copy-files --watch --out-dir dist  --ignore src/public --verbose --source-maps",
     "build": "babel src --copy-files -d dist --verbose"
   },
   "dependencies": {
