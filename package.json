@@ -4,11 +4,15 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "server": "node-dev ./bin/www"
+    "server": "node-dev ./bin/www",
+    "build": "babel src --copy-files -d dist --verbose"
   },
   "dependencies": {
     "@adonisjs/ace": "^5.0.8",
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.11.0",
     "@babel/polyfill": "^7.10.4",
+    "@babel/preset-env": "^7.11.0",
     "axios": "^0.19.2",
     "babel-plugin-root-import": "^6.5.0",
     "body-parser": "^1.19.0",
