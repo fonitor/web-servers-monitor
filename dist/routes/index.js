@@ -15,7 +15,7 @@ router.get('/', function (req, res, next) {
 
   logger.info('shishis');
   res.render('index', {
-    title: 'Express'
+    title: '测试返回'
   });
 });
 module.exports = router;

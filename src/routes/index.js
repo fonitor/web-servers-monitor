@@ -7,7 +7,7 @@ router.get('/', function(req, res, next) {
   // Logger.log('测试')
   let logger = Logger.getLogger4Command('ceshi')
   logger.info('shishis')
-  res.render('index', { title: 'Express' });
+  res.render('index', { title: '测试返回' });
 });
 
 module.exports = router;
