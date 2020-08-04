@@ -17,6 +17,7 @@ import cookieParser from 'cookie-parser'
 import logger from 'morgan'
 import indexRouter from './routes/index'
 import usersRouter from './routes/users'
+import cors from 'cors'
 
 const startup = () => {
   const app = express()
@@ -43,15 +44,22 @@ const startup = () => {
   // error handler
   app.use(function(err, req, res, next) {
     // set locals, only providing error in development
-    res.locals.message = err.message;
-    res.locals.error = req.app.get('env') === 'development' ? err : {};
+    res.locals.message = err.message
+    res.locals.error = req.app.get('env') === 'development' ? err : {}
 
     // render the error page
-    res.status(err.status || 500);
-    res.render('error');
-  });
+    res.status(err.status || 500)
+    res.render('error')
+  })
 
-  app.set('port', '9001');
+  app.set('port', '9001')
+
+  // 支持跨域
+  app.use(cors({
+    origin: true,
+    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
+    credentials: true
+  }))
 
   app.listen(9001, function() {
     console.log('成功')
