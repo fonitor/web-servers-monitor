@@ -1,5 +1,10 @@
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
 var _logger = _interopRequireDefault(require("../library/logger"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -18,5 +23,6 @@ router.get('/', function (req, res, next) {
     title: '测试返回'
   });
 });
-module.exports = router;
+var _default = router;
+exports.default = _default;
 //# sourceMappingURL=index.js.map

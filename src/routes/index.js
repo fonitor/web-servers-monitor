@@ -10,4 +10,4 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: '测试返回' });
 });
 
-module.exports = router;
+export default router
