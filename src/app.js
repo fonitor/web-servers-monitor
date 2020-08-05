@@ -14,10 +14,12 @@ import path from 'path'
 import createError from 'http-errors'
 import express from 'express'
 import cookieParser from 'cookie-parser'
-import logger from 'morgan'
+import morgan from 'morgan'
 import indexRouter from './routes/index'
 import usersRouter from './routes/users'
 import cors from 'cors'
+import appConfig from './config/app'
+import Logger from './library/logger'
 
 const startup = () => {
   const app = express()
@@ -27,7 +29,7 @@ const startup = () => {
   // 设置模板引擎为ejs
   app.set('view engine', 'ejs')
 
-  app.use(logger('dev'))
+  app.use(morgan('dev'))
   app.use(express.json())
   app.use(express.urlencoded({ extended: false }))
   app.use(cookieParser())
@@ -52,7 +54,7 @@ const startup = () => {
     res.render('error')
   })
 
-  app.set('port', '9001')
+  app.set('port', appConfig.port)
 
   // 支持跨域
   app.use(cors({
@@ -61,8 +63,8 @@ const startup = () => {
     credentials: true
   }))
 
-  app.listen(9001, function() {
-    console.log('成功')
+  app.listen(appConfig.port, function() {
+    Logger.log(`${appConfig.name} listening on port ${appConfig.port}`)
   })
 }
 

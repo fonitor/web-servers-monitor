@@ -18,6 +18,10 @@ var _users = _interopRequireDefault(require("./routes/users"));
 
 var _cors = _interopRequireDefault(require("cors"));
 
+var _app = _interopRequireDefault(require("./config/app"));
+
+var _logger = _interopRequireDefault(require("./library/logger"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /*
@@ -58,15 +62,15 @@ const startup = () => {
     res.status(err.status || 500);
     res.render('error');
   });
-  app.set('port', '9001'); // 支持跨域
+  app.set('port', _app.default.port); // 支持跨域
 
   app.use((0, _cors.default)({
     origin: true,
     methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
     credentials: true
   }));
-  app.listen(9001, function () {
-    console.log('成功');
+  app.listen(_app.default.port, function () {
+    _logger.default.log(`${_app.default.name} listening on port ${_app.default.port}`);
   });
 };
 

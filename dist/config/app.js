@@ -18,7 +18,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  */
 const production = {
   name: '小林监控平台开发环境',
-  port: 3000,
+  port: 9001,
   proxy: false,
   absoluteLogPath: _path.default.resolve(__dirname, '../', 'log')
 }; // 下面的特定环境可以深度合并到上面的默认环境
@@ -27,14 +27,14 @@ const production = {
 
 const development = {
   name: '小林监控平台开发环境',
-  port: 3000,
+  port: 9001,
   proxy: false,
   absoluteLogPath: _path.default.resolve(__dirname, '../', 'log')
 }; // 测试环境配置
 
 const testing = {
   name: '小林监控平台开发环境',
-  port: 3000,
+  port: 9001,
   proxy: false,
   absoluteLogPath: _path.default.resolve(__dirname, '../', 'log')
 };

@@ -9,7 +9,7 @@ import path from 'path'
 
 const production = {
     name: '小林监控平台开发环境',
-    port: 3000,
+    port: 9001,
     proxy: false,
     absoluteLogPath: path.resolve(__dirname, '../', 'log')
 }
@@ -20,14 +20,14 @@ const production = {
 // 开发环境配置
 const development = {
     name: '小林监控平台开发环境',
-    port: 3000,
+    port: 9001,
     proxy: false,
     absoluteLogPath: path.resolve(__dirname, '../', 'log')
 }
 // 测试环境配置
 const testing = {
     name: '小林监控平台开发环境',
-    port: 3000,
+    port: 9001,
     proxy: false,
     absoluteLogPath: path.resolve(__dirname, '../', 'log')
 }
