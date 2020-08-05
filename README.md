@@ -55,6 +55,10 @@ pm2 restart 0 # 重启id为0的应用
 pm2 delete all # 关闭删除所有应用
 ~~~
 
+### server 架构图
+
+<img src="http://missxiaolin.com/jk_20200805.png" />
+
 ### 定时任务
 
 - 任务（@adonisjs/ace）
