@@ -20,6 +20,7 @@ import usersRouter from './routes/users'
 import cors from 'cors'
 import appConfig from './config/app'
 import Logger from './library/logger'
+import bodyParser from 'body-parser'
 
 const startup = () => {
   const app = express()
@@ -30,18 +31,29 @@ const startup = () => {
   app.set('view engine', 'ejs')
 
   app.use(morgan('dev'))
-  app.use(express.json())
-  app.use(express.urlencoded({ extended: false }))
+  // app.use(express.json())
+  // app.use(express.urlencoded({ extended: false }))
+  // 设置body-parser
+  app.use(bodyParser.urlencoded({ extended: false }))
+  // 解析json请求
+  app.use(bodyParser.json({ extended: false }))
+  // 设置cookie-parse
   app.use(cookieParser())
   app.use(express.static(path.join(__dirname, 'public')))
 
   app.use('/', indexRouter)
   app.use('/users', usersRouter)
 
-  // catch 404 and forward to error handler
-  app.use(function(req, res, next) {
-    next(createError(404))
+  // 支持前端History模式 => https://router.vuejs.org/zh/guide/essentials/history-mode.html#后端配置例子
+  // 将所有404页面均返回index.html
+  app.use('*', (req, res) => {
+    res.render('index')
   })
+
+  // catch 404 and forward to error handler
+  // app.use(function(req, res, next) {
+  //   next(createError(404))
+  // })
 
   // error handler
   app.use(function(err, req, res, next) {
