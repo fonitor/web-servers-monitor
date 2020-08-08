@@ -34,6 +34,7 @@
     "moment": "^2.27.0",
     "morgan": "~1.9.1",
     "mysql": "^2.18.1",
+    "node-rdkafka": "^v2.9.1",
     "query-string": "^6.13.1",
     "sequelize": "^6.3.3",
     "shelljs": "^0.8.4",
