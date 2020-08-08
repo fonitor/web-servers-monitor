@@ -33,4 +33,3 @@ var _default = {
   UNIT
 };
 exports.default = _default;
-//# sourceMappingURL=date_format.js.map

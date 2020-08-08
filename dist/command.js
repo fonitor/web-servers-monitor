@@ -26,4 +26,3 @@ for (let command of registedCommandList) {
 _ace.default.wireUpWithCommander();
 
 _ace.default.invoke();
-//# sourceMappingURL=command.js.map

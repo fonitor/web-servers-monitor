@@ -37,4 +37,3 @@ var _default = {
   getLocalIpList
 };
 exports.default = _default;
-//# sourceMappingURL=network.js.map

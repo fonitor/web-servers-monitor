@@ -44,4 +44,3 @@ function postForm(url, formData = {}, config = {}) {
 http.postForm = postForm;
 var _default = http;
 exports.default = _default;
-//# sourceMappingURL=index.js.map
