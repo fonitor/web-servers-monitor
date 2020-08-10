@@ -15,7 +15,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 | Here we setup the environment and register ace commands.
 |
 */
-const registedCommandList = ['./commands/demo' // 命令demo测试
+const registedCommandList = ['./commands/demo', // 命令demo测试
+'./commands/save_log/nginxLog' // 每一分钟读取Nginx日志文件，并解析
 ]; // register commands
 
 for (let command of registedCommandList) {
@@ -26,3 +27,4 @@ for (let command of registedCommandList) {
 _ace.default.wireUpWithCommander();
 
 _ace.default.invoke();
+//# sourceMappingURL=command.js.map

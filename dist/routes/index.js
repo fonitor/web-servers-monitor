@@ -25,3 +25,4 @@ router.get('/', function (req, res, next) {
 });
 var _default = router;
 exports.default = _default;
+//# sourceMappingURL=index.js.map

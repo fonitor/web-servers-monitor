@@ -125,3 +125,4 @@ class Base extends _ace.Command {
 
 var _default = Base;
 exports.default = _default;
+//# sourceMappingURL=base.js.map
