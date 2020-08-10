@@ -85,6 +85,14 @@ http://10.26.15.49/test.gif?a=1
 05/Aug/2020:20:23:06 +0800        -       -       - www.xl-jk.com      200 0.000   491 43        15d04347-be16-b9ab-0029-24e4b6645950    -       -       9689c3ea-5155-2df7-a719-e90d2dedeb2c    937ba755-116a-18e6-0735-312cba23b00c    GET HTTP/1.1        /test.gif?a=1    -       Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36        -       sample=-&_UC_agent=-&test_device_id=-&-      -       -       -
 ~~~
 
+### 日志监听
+
+- flume
+
+### 日志消费
+
+- kafka
+
 ### 定时任务
 
 - 任务（@adonisjs/ace）
