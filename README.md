@@ -88,6 +88,58 @@ http://10.26.15.49/test.gif?a=1
 ### 日志监听
 
 - flume
+- rsyslog
+
+安装
+
+~~~
+yum install rsyslog
+yum install rsyslog-kafka.x86_64
+~~~
+
+rsyslog配置
+
+编辑配置文件（路径 /etc/rsyslog.conf  ），在配置文件 #### MODULES #### 的下面添加如下配置（或者在 /etc/rsyslogd/ 目录下添加 XXX.conf 配置文件）
+
+~~~
+# 加载omkafka和imfile模块
+module(load="omkafka")
+module(load="imfile")
+ 
+# nginx template
+template(name="nginxAccessTemplate" type="string" string="%hostname%<-+>%syslogtag%<-+>%msg%\n")
+ 
+# ruleset
+ruleset(name="nginx-kafka") {
+    #日志转发kafka
+    action (
+        type="omkafka"
+	    template="nginxAccessTemplate"
+        topic="fee-test"
+        broker="localhost:9092"
+    )
+}
+ 
+# 定义消息来源及设置相关的action
+input(type="imfile" Tag="nginx-accesslog" File="/var/log/access.log" Ruleset="nginx-kafka")
+~~~
+
+配置简单说明：
+
+- localhost:9092 需要修改为你自己的kafka地址（如果为集群多个地址逗号分隔）
+- /var/log/access.log 是监控的nginx日志文件
+- topic: fee-test后续通过 kafka-manager 创建
+
+
+修改完配置后运行： rsyslogd -N 1 或者 rsyslogd -dn 查看配置是否报错
+
+然后重启 rsyslog --service rsyslog restart 重启后查看 /var/log/message 中日志是否报错。
+
+参考文档：
+
+- rsyslog v8-stable(https://www.rsyslog.com/doc/v8-stable/index.html)
+- 日志收集之rsyslog kafka配置(https://blog.csdn.net/flyfelu/article/details/83150259)
+- 日志收集之rsyslog to kafka(https://www.jianshu.com/p/1b7fdb1cff3c)
 
 ### 日志消费
 
