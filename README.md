@@ -93,6 +93,57 @@ http://10.26.15.49/test.gif?a=1
 
 - kafka
 
+#### mac 安装kafka
+
+~~~
+brew install kafka
+~~~
+
+如果缺少JDK8依赖，或安装了JDK10，则需要先通过brew cask插件安装JDK8：
+
+~~~
+brew cask install java8
+~~~
+
+安装位置
+
+~~~
+/usr/local/Cellar/zookeeper
+/usr/local/Cellar/kafka
+~~~
+
+配置文件位置
+
+~~~
+/usr/local/etc/kafka/server.properties
+/usr/local/etc/kafka/zookeeper.properties
+~~~
+
+启动
+
+~~~
+brew services start zookeeper
+brew services start kafka
+~~~
+
+创建topic
+
+~~~
+kafka-topics --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic test
+~~~
+
+查看创建的topic
+
+~~~
+kafka-topics --list --zookeeper localhost:2181
+~~~
+
+发送一些消息
+
+~~~
+kafka-console-producer --broker-list localhost:9092 --topic test 
+~~~
+
 ### 定时任务
 
 - 任务（@adonisjs/ace）
