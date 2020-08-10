@@ -1,5 +1,5 @@
 import path from 'path'
-import Kafka from 'node-rdkafka'
+// import Kafka from 'node-rdkafka'
 import appConfig from '../../config/app'
 import moment from 'moment'
 
@@ -74,7 +74,7 @@ function getMonthDirName(logAt) {
 
 export default {
     // 原型对象
-    Kafka,
+    // Kafka,
     // 工具函数
     getAbsoluteLogUriByType,
     getAbsoluteBasePathByType,

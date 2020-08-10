@@ -13,7 +13,7 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-// npm run fee Command:Demo user ceshi --onlyFlag false
+// npm run commone Command:Demo user ceshi --onlyFlag false
 class CommandDemo extends _base.default {
   static get signature() {
     return `
