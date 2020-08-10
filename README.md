@@ -196,6 +196,11 @@ kafka-topics --list --zookeeper localhost:2181
 kafka-console-producer --broker-list localhost:9092 --topic test 
 ~~~
 
+docker 相关
+
+- Docker以及Docker Compose的安装请参照[官网文档](https://docs.docker.com/get-docker/)
+- 通过docker-compose的方式部署（若对kafka以及docker不熟悉，请先了解相关知识）。相关配置参见：[Docker compose Kafka](https://gist.github.com/alphawq/1c2dc14cbc303e32ec45c64e2d764284#docker-compose-kafka-zookeeper-and-kafka-manager), [Zookeeper and Kafka manager](https://gist.github.com/alphawq/1c2dc14cbc303e32ec45c64e2d764284#docker-compose-kafka-zookeeper-and-kafka-manager)
+
 ### 定时任务
 
 - 任务（@adonisjs/ace）
