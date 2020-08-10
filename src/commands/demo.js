@@ -5,6 +5,11 @@ class CommandDemo extends Base {
     static get signature() {
         return `
             Command:Demo 
+            {user:[必传]用户名}
+            {name?:[可选]称谓}
+
+            {--onlyFlag:[必传]flag,只有true/false两个值} 
+
          `
     }
 
@@ -14,10 +19,10 @@ class CommandDemo extends Base {
 
     async execute(args, options) {
         console.log('测试')
-        // console.log(args)
-        // console.log(options)
-        // let { onlyFlag, logName, isTest } = options
-        // this.log(`CommandDemo, onlyFlag=> ${onlyFlag}`)
+        console.log(args)
+        console.log(options)
+        let { onlyFlag, logName, isTest } = options
+        this.log(`CommandDemo, onlyFlag=> ${onlyFlag}`)
         // this.log(`CommandDemo, logName=> ${logName}`)
         // this.log(`CommandDemo, isTest=> ${isTest}`)
         // let i = 0

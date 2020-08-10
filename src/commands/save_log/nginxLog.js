@@ -1,7 +1,6 @@
-import SaveLogBase from './base'
+import Base from '../base'
 
-
-export default class NginxParseLog extends SaveLogBase {
+export default class NginxParseLog extends Base {
     static get signature() {
         return `
          SaveLog:Nginx 
