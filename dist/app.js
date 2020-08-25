@@ -58,7 +58,7 @@ const startup = () => {
 
       let projectApiReg = /^\/project\/\d+\/api/i;
 
-      if (_lodash.default.startsWith(path, '/api') || path.search(projectApiReg) === 0) {
+      if (_lodash.default.startsWith(path, '/api') || path.search(projectApiReg) === 0 || path == '/') {
         return (0, _index.default)(req, res, next);
       } else {
         next();
