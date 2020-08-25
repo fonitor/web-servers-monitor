@@ -15,15 +15,16 @@ import createError from 'http-errors'
 import express from 'express'
 import cookieParser from 'cookie-parser'
 import morgan from 'morgan'
-// import indexRouter from './routes/index'
+import router from './routes/index'
 import cors from 'cors'
 import appConfig from './config/app'
 import Logger from './library/logger'
 import bodyParser from 'body-parser'
+import _ from 'lodash'
 
 const startup = () => {
   const app = express()
-  
+
   // view engine setup
   app.set('views', path.join(__dirname, 'views'));
   // 设置模板引擎为ejs
@@ -42,7 +43,16 @@ const startup = () => {
   /* 添加静态路径 */
   app.use(express.static(path.join(__dirname, 'public')))
 
-  // app.use('/', indexRouter)
+  app.use('/', async (req, res, next) => {
+    let path = req.path
+    // 只对以 /api & /project/${projectId}/api 路径开头的接口进行响应
+    let projectApiReg = /^\/project\/\d+\/api/i
+    if (_.startsWith(path, '/api') || path.search(projectApiReg) === 0) {
+      return router(req, res, next)
+    } else {
+      next()
+    }
+  })
 
   // 支持前端History模式 => https://router.vuejs.org/zh/guide/essentials/history-mode.html#后端配置例子
   // 将所有404页面均返回index.html
@@ -56,7 +66,7 @@ const startup = () => {
   // })
 
   // error handler
-  app.use(function(err, req, res, next) {
+  app.use(function (err, req, res, next) {
     // set locals, only providing error in development
     res.locals.message = err.message
     res.locals.error = req.app.get('env') === 'development' ? err : {}
@@ -75,7 +85,7 @@ const startup = () => {
     credentials: true
   }))
 
-  app.listen(appConfig.port, function() {
+  app.listen(appConfig.port, function () {
     Logger.log(`${appConfig.name} listening on port ${appConfig.port}`)
   })
 }

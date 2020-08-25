@@ -14,8 +14,6 @@ var _morgan = _interopRequireDefault(require("morgan"));
 
 var _index = _interopRequireDefault(require("./routes/index"));
 
-var _users = _interopRequireDefault(require("./routes/users"));
-
 var _cors = _interopRequireDefault(require("cors"));
 
 var _app = _interopRequireDefault(require("./config/app"));
@@ -24,18 +22,14 @@ var _logger = _interopRequireDefault(require("./library/logger"));
 
 var _bodyParser = _interopRequireDefault(require("body-parser"));
 
+var _lodash = _interopRequireDefault(require("lodash"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/*
-Copyright(c)  2017  Lianjia, Inc. All Rights Reserved
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-*/
 const startup = () => {
   const app = (0, _express.default)(); // view engine setup
 
@@ -55,9 +49,26 @@ const startup = () => {
   })); // 设置cookie-parse
 
   app.use((0, _cookieParser.default)());
+  /* 添加静态路径 */
+
   app.use(_express.default.static(_path.default.join(__dirname, 'public')));
-  app.use('/', _index.default);
-  app.use('/users', _users.default); // 支持前端History模式 => https://router.vuejs.org/zh/guide/essentials/history-mode.html#后端配置例子
+  app.use('/', /*#__PURE__*/function () {
+    var _ref = _asyncToGenerator(function* (req, res, next) {
+      let path = req.path; // 只对以 /api & /project/${projectId}/api 路径开头的接口进行响应
+
+      let projectApiReg = /^\/project\/\d+\/api/i;
+
+      if (_lodash.default.startsWith(path, '/api') || path.search(projectApiReg) === 0) {
+        return (0, _index.default)(req, res, next);
+      } else {
+        next();
+      }
+    });
+
+    return function (_x, _x2, _x3) {
+      return _ref.apply(this, arguments);
+    };
+  }()); // 支持前端History模式 => https://router.vuejs.org/zh/guide/essentials/history-mode.html#后端配置例子
   // 将所有404页面均返回index.html
 
   app.use('*', (req, res) => {
