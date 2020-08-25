@@ -15,8 +15,7 @@ import createError from 'http-errors'
 import express from 'express'
 import cookieParser from 'cookie-parser'
 import morgan from 'morgan'
-import indexRouter from './routes/index'
-import usersRouter from './routes/users'
+// import indexRouter from './routes/index'
 import cors from 'cors'
 import appConfig from './config/app'
 import Logger from './library/logger'
@@ -41,8 +40,7 @@ const startup = () => {
   app.use(cookieParser())
   app.use(express.static(path.join(__dirname, 'public')))
 
-  app.use('/', indexRouter)
-  app.use('/users', usersRouter)
+  // app.use('/', indexRouter)
 
   // 支持前端History模式 => https://router.vuejs.org/zh/guide/essentials/history-mode.html#后端配置例子
   // 将所有404页面均返回index.html
