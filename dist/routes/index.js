@@ -5,20 +5,21 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _logger = _interopRequireDefault(require("../library/logger"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 var express = require('express');
 
 var router = express.Router();
+/**
+ * 根据请求方法注册路由
+ * @param {*} customerRouter 
+ * @param {*} routerConfig 
+ * @param {*} url 
+ */
 
+function registerRouterByMethod(customerRouter, routerConfig, url) {}
 /* GET home page. */
-router.get('/', function (req, res, next) {
-  // Logger.log('测试')
-  let logger = _logger.default.getLogger4Command('ceshi');
 
-  logger.info('shishis');
+
+router.get('/', function (req, res, next) {
   res.render('index', {
     title: '测试返回'
   });

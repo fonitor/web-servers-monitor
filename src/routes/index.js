@@ -1,12 +1,18 @@
-var express = require('express');
-var router = express.Router();
-import Logger from '../library/logger'
+var express = require('express')
+var router = express.Router()
+
+/**
+ * 根据请求方法注册路由
+ * @param {*} customerRouter 
+ * @param {*} routerConfig 
+ * @param {*} url 
+ */
+function registerRouterByMethod(customerRouter, routerConfig, url) {
+  
+}
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  // Logger.log('测试')
-  let logger = Logger.getLogger4Command('ceshi')
-  logger.info('shishis')
   res.render('index', { title: '测试返回' });
 });
 
