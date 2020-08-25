@@ -38,6 +38,8 @@ const startup = () => {
   app.use(bodyParser.json({ extended: false }))
   // 设置cookie-parse
   app.use(cookieParser())
+
+  /* 添加静态路径 */
   app.use(express.static(path.join(__dirname, 'public')))
 
   // app.use('/', indexRouter)
