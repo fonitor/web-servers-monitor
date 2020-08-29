@@ -1,9 +1,15 @@
 var express = require('express')
 var router = express.Router()
+import RouterConfigBuilder from '../library/utils/router_config_builder'
+import Api from './api'
 
 // 路由分为以下部分
 // 不需要登录
 const withoutLoginRouter = express.Router()
+
+let routerConfigMap = {
+  ...Api
+}
 
 /**
  * 根据请求方法注册路由
