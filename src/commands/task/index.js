@@ -1,9 +1,11 @@
 import Base from '../base'
 import Util from '../../common/utils'
+import moment from 'moment'
+import shell from 'shelljs'
 
 // https://www.npmjs.com/package/node-schedule
 export default class TaskManager extends Base {
-    
+
     static get signature() {
         return `
          Task:Manager
@@ -18,7 +20,7 @@ export default class TaskManager extends Base {
         this.log('任务主进程启动')
         // 启动先关闭其他TaskManager进程
         await this.closeOtherTaskManager()
-        
+
         this.log('开始休眠')
         for (let i = 0; i < 30; i++) {
             await Util.getInstance().sleep(1 * 1000)
@@ -79,6 +81,19 @@ export default class TaskManager extends Base {
      * @param {*} args 
      */
     async execCommand(commandName, args) {
-
+        let argvString = args.map((arg) => { return `'${arg}'` }).join('   ')
+        let command = `NODE_ENV=${env} node ${projectBaseUri}/dist/fee.js ${commandName}  ${argvString}`
+        this.log(`待执行命令=> ${command}`)
+        let commandStartAtFormated = moment().format(DATE_FORMAT.DISPLAY_BY_MILLSECOND)
+        let commandStartAtms = moment().valueOf()
+        shell.exec(command, {
+            async: true,
+            silent: true
+        }, () => {
+            let commandFinishAtFormated = moment().format(DATE_FORMAT.DISPLAY_BY_MILLSECOND)
+            let commandFinishAtms = moment().valueOf()
+            let during = (commandFinishAtms - commandStartAtms) / 1000
+            this.log(`${command}命令执行完毕, 共用时${during}秒, 开始执行时间=> ${commandStartAtFormated}, 执行完毕时间=> ${commandFinishAtFormated}`)
+        })
     }
 }
