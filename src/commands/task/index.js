@@ -68,11 +68,62 @@ export default class TaskManager extends Base {
 
     }
 
+    async getOtherTaskMangerPidList() {
+        // 命令本身也会被检测出来, sh -c npm run warning && NODE_ENV=development node dist/fee.js "Task:Manager"
+        let command = 'ps aS|grep Task:Manager|grep node|grep fee|grep -v grep | grep -v  \'"Task:Manager"\''
+        this.log(`检测命令 => ${command}`)
+        let rawCommandOutput = shell.exec(command, {
+            async: false,
+            silent: true
+        })
+        let rawCommandOutputList = rawCommandOutput.split('\n')
+        let taskManagerPidList = []
+        for (let rawCommandOutput of rawCommandOutputList) {
+            let commandOutput = _.trim(rawCommandOutput)
+            commandOutput = _.replace(commandOutput, '\t', ' ')
+            let pid = commandOutput.split(' ')[0]
+            pid = parseInt(pid)
+            if (_.isNumber(pid) && pid > 0) {
+                if (pid !== process.pid) {
+                    taskManagerPidList.push(pid)
+                }
+            }
+        }
+        return taskManagerPidList
+    }
+
     /**
      * 启动先关闭其他TaskManager进程
      */
     closeOtherTaskManager() {
-
+        let taskManagerPidList = await this.getOtherTaskMangerPidList()
+        this.log('当前process.pid =>', process.pid)
+        this.log(`其余TaskManger进程Pid列表 => `, taskManagerPidList)
+        this.log('执行kill操作, 关闭其余进程')
+        for (let pid of taskManagerPidList) {
+            this.log(`kill pid => ${pid}`)
+            try {
+                process.kill(pid)
+            } catch (e) {
+                let message = `TaskManger进程pid => ${pid} kill失败, 该pid不存在或者没有权限kill`
+                this.log(message)
+            }
+        }
+        this.log('kill操作执行完毕, 休眠3s, 再次检测剩余TaskManager进程数')
+        await Util.sleep(3 * 1000)
+        this.log('开始检测剩余TaskManager进程数')
+        taskManagerPidList = await this.getOtherTaskMangerPidList()
+        if (taskManagerPidList.length === 0) {
+            this.log('剩余TaskManager为空, 可以继续执行任务调度进程')
+            return true
+        }
+        // PM2 3.2.2 有bug, 无法保证TaskManager只有一个实例, 因此需要主动进行检测
+        // 否则, 直接终止该进程
+        let alertMessage = '仍然有残留TaskManager进程, 程序不能保证正常执行, 自动退出. 剩余 TaskManager pid List => ' + JSON.stringify(taskManagerPidList)
+        this.warn(alertMessage)
+        // 花式自尽
+        process.kill(process.pid)
+        process.exit(1)
     }
 
     /**
