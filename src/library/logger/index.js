@@ -54,13 +54,13 @@ function getLogger4Command(commandName = 'unsetCommandName') {
             command: {
                 type: 'dateFile',
                 filename: `${config.absoluteLogPath}/command/${commandName}`,
-                pattern: '-yyyy-MM-dd.log',
+                pattern: 'yyyy-MM-dd.log',
                 alwaysIncludePattern: true
             },
             express: {
                 type: 'dateFile',
                 filename: `${config.absoluteLogPath}/express/runtime`,
-                pattern: '-yyyy-MM-dd.log',
+                pattern: 'yyyy-MM-dd.log',
                 alwaysIncludePattern: true
             }
         },
