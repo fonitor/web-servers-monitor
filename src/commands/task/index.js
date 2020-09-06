@@ -2,6 +2,8 @@ import Base from '../base'
 import Util from '../../common/utils'
 import moment from 'moment'
 import shell from 'shelljs'
+import _ from 'lodash'
+import schedule from 'node-schedule'
 
 // https://www.npmjs.com/package/node-schedule
 export default class TaskManager extends Base {
@@ -44,7 +46,9 @@ export default class TaskManager extends Base {
      * 每分钟启动一次
      */
     async registerTaskRepeatPer1Minute() {
-
+        schedule.scheduleJob('0 */1 * * * *', () => {
+            this.log('测试执行1分钟')
+        })
     }
 
     /**
@@ -70,7 +74,7 @@ export default class TaskManager extends Base {
 
     async getOtherTaskMangerPidList() {
         // 命令本身也会被检测出来, sh -c npm run warning && NODE_ENV=development node dist/fee.js "Task:Manager"
-        let command = 'ps aS|grep Task:Manager|grep node|grep fee|grep -v grep | grep -v  \'"Task:Manager"\''
+        let command = 'ps aS|grep Task:Manager|grep node|grep command|grep -v grep | grep -v  \'"Task:Manager"\''
         this.log(`检测命令 => ${command}`)
         let rawCommandOutput = shell.exec(command, {
             async: false,
@@ -79,7 +83,7 @@ export default class TaskManager extends Base {
         let rawCommandOutputList = rawCommandOutput.split('\n')
         let taskManagerPidList = []
         for (let rawCommandOutput of rawCommandOutputList) {
-            let commandOutput = _.trim(rawCommandOutput)
+            var commandOutput = _.trim(rawCommandOutput)
             commandOutput = _.replace(commandOutput, '\t', ' ')
             let pid = commandOutput.split(' ')[0]
             pid = parseInt(pid)
@@ -95,7 +99,7 @@ export default class TaskManager extends Base {
     /**
      * 启动先关闭其他TaskManager进程
      */
-    closeOtherTaskManager() {
+    async closeOtherTaskManager() {
         let taskManagerPidList = await this.getOtherTaskMangerPidList()
         this.log('当前process.pid =>', process.pid)
         this.log(`其余TaskManger进程Pid列表 => `, taskManagerPidList)
@@ -110,7 +114,7 @@ export default class TaskManager extends Base {
             }
         }
         this.log('kill操作执行完毕, 休眠3s, 再次检测剩余TaskManager进程数')
-        await Util.sleep(3 * 1000)
+        await Util.getInstance().sleep(3 * 1000)
         this.log('开始检测剩余TaskManager进程数')
         taskManagerPidList = await this.getOtherTaskMangerPidList()
         if (taskManagerPidList.length === 0) {

@@ -13,6 +13,7 @@ import ace from '@adonisjs/ace'
 const registedCommandList = [
     './commands/demo', // 命令demo测试
     './commands/save_log/nginxLog', // 每一分钟读取Nginx日志文件，并解析
+    './commands/task/index'
 ]
 
 

@@ -16,8 +16,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 |
 */
 const registedCommandList = ['./commands/demo', // 命令demo测试
-'./commands/save_log/nginxLog' // 每一分钟读取Nginx日志文件，并解析
-]; // register commands
+'./commands/save_log/nginxLog', // 每一分钟读取Nginx日志文件，并解析
+'./commands/task/index']; // register commands
 
 for (let command of registedCommandList) {
   _ace.default.addCommand(require(command)['default']);
