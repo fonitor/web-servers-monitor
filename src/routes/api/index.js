@@ -1,3 +1,5 @@
-export default {
+import saveLog from './log'
 
+export default {
+    ...saveLog
 }

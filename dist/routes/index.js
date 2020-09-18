@@ -20,31 +20,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 var express = require('express');
 
 var router = express.Router();
-// 路由分为以下部分
-// 不需要登录
-const withoutLoginRouter = express.Router();
 
+// 路由分为以下部分
 let routerConfigMap = _objectSpread({}, _api.default);
 /**
  * 根据请求方法注册路由
- * @param {*} customerRouter
  * @param {*} routerConfig
  * @param {*} url
  */
 
 
-function registerRouterByMethod(customerRouter, routerConfig, url) {
+function registerRouterByMethod(routerConfig, url) {
   switch (routerConfig.methodType) {
     case _router_config_builder.default.METHOD_TYPE_GET:
-      customerRouter.get(url, (req, res) => {
-        return routerConfig.func(req, res);
-      });
+      router.get(url, routerConfig.func);
       break;
 
     case _router_config_builder.default.METHOD_TYPE_POST:
-      customerRouter.post(url, (req, res) => {
-        return routerConfig.func(req, res);
-      });
+      router.post(url, routerConfig.func);
       break;
 
     default:
@@ -55,12 +48,12 @@ function registerRouterByMethod(customerRouter, routerConfig, url) {
 for (let url of Object.keys(routerConfigMap)) {
   let routerConfig = routerConfigMap[url]; // 不需要登录
 
-  registerRouterByMethod(withoutLoginRouter, routerConfig, url);
+  registerRouterByMethod(routerConfig, url);
 }
 /* GET home page. */
 
 
-router.get('/', function (req, res, next) {
+router.get('/', function (req, res) {
   res.send({
     title: '测试返回'
   });
