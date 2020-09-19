@@ -24,6 +24,8 @@ var _bodyParser = _interopRequireDefault(require("body-parser"));
 
 var _lodash = _interopRequireDefault(require("lodash"));
 
+var _ejs = _interopRequireDefault(require("ejs"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -34,6 +36,10 @@ const startup = () => {
   const app = (0, _express.default)(); // view engine setup
 
   app.set('views', _path.default.join(__dirname, 'views')); // 设置模板引擎为ejs
+  // 设置模板引擎为ejs
+  // app.set('view engine', 'ejs')
+
+  app.engine('html', _ejs.default.renderFile); // app.set('view engine', 'html')
 
   app.set('view engine', 'ejs');
   app.use((0, _morgan.default)('dev')); // app.use(express.json())

@@ -21,6 +21,7 @@ import appConfig from './config/app'
 import Logger from './library/logger'
 import bodyParser from 'body-parser'
 import _ from 'lodash'
+import ejs from 'ejs'
 
 const startup = () => {
   const app = express()
@@ -28,6 +29,10 @@ const startup = () => {
   // view engine setup
   app.set('views', path.join(__dirname, 'views'));
   // 设置模板引擎为ejs
+  // 设置模板引擎为ejs
+  // app.set('view engine', 'ejs')
+  app.engine('html', ejs.renderFile)
+  // app.set('view engine', 'html')
   app.set('view engine', 'ejs')
 
   app.use(morgan('dev'))

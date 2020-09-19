@@ -3,6 +3,8 @@ var router = express.Router()
 import RouterConfigBuilder from '../library/utils/router_config_builder'
 import Api from './api'
 
+const withoutLoginRouter = express.Router()
+
 // 路由分为以下部分
 
 let routerConfigMap = {
@@ -20,11 +22,18 @@ function registerRouterByMethod(routerConfig, url) {
       router.get(url, routerConfig.func)
       break
     case RouterConfigBuilder.METHOD_TYPE_POST:
-      router.post(url, routerConfig.func)
+      router.post(url, (req, res) => {
+        return routerConfig.func(req, res)
+      })
       break
     default:
   }
 }
+
+/* GET home page. */
+router.get('/', function (req, res) {
+  res.json({ title: '测试返回' })
+})
 
 // 自动注册
 for (let url of Object.keys(routerConfigMap)) {
@@ -32,10 +41,5 @@ for (let url of Object.keys(routerConfigMap)) {
   // 不需要登录
   registerRouterByMethod(routerConfig, url)
 }
-
-/* GET home page. */
-router.get('/', function (req, res) {
-  res.send({ title: '测试返回' })
-})
 
 export default router
