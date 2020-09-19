@@ -52,6 +52,13 @@ const startup = () => {
   /* 添加静态路径 */
 
   app.use(_express.default.static(_path.default.join(__dirname, 'public')));
+  app.options('*', (0, _cors.default)()); // 支持跨域
+
+  app.use((0, _cors.default)({
+    origin: true,
+    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
+    credentials: true
+  }));
   app.use('/', /*#__PURE__*/function () {
     var _ref = _asyncToGenerator(function* (req, res, next) {
       let path = req.path; // 只对以 /api & /project/${projectId}/api 路径开头的接口进行响应
@@ -87,13 +94,7 @@ const startup = () => {
     res.status(err.status || 500);
     res.render('error');
   });
-  app.set('port', _app.default.port); // 支持跨域
-
-  app.use((0, _cors.default)({
-    origin: true,
-    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
-    credentials: true
-  }));
+  app.set('port', _app.default.port);
   app.listen(_app.default.port, function () {
     _logger.default.log(`${_app.default.name} listening on port ${_app.default.port}`);
   });

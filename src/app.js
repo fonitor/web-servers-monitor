@@ -43,6 +43,15 @@ const startup = () => {
   /* 添加静态路径 */
   app.use(express.static(path.join(__dirname, 'public')))
 
+  app.options('*', cors())
+
+  // 支持跨域
+  app.use(cors({
+    origin: true,
+    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
+    credentials: true
+  }))
+
   app.use('/', async (req, res, next) => {
     let path = req.path
     // 只对以 /api & /project/${projectId}/api 路径开头的接口进行响应
@@ -77,13 +86,6 @@ const startup = () => {
   })
 
   app.set('port', appConfig.port)
-
-  // 支持跨域
-  app.use(cors({
-    origin: true,
-    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
-    credentials: true
-  }))
 
   app.listen(appConfig.port, function () {
     Logger.log(`${appConfig.name} listening on port ${appConfig.port}`)
