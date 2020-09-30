@@ -21,7 +21,7 @@ export default class Index extends Base {
             endAt = moment().format('YYYY-MM-DD hh:mm:ss');
         data.startAt = startAt
         data.endAt = endAt
-        mq.sendQueueMsg('webLogSave', req.body || {}, (res) => {
+        mq.sendQueueMsg('webLogSave', JSON.stringify(req.body) || {}, (res) => {
 
         }, (error) => {
 
