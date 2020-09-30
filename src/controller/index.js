@@ -1,5 +1,6 @@
 import Base from './base'
 import moment from 'moment'
+import _ from 'lodash'
 
 import RabbitMq from '../library/mq/index'
 
@@ -15,6 +16,11 @@ export default class Index extends Base {
      * @param {*} res 
      */
     saveLog(req, res) {
+        let data = req.body || {},
+            startAt = moment().format('YYYY-MM-DD hh:mm:ss'),
+            endAt = moment().format('YYYY-MM-DD hh:mm:ss');
+        data.startAt = startAt
+        data.endAt = endAt
         mq.sendQueueMsg('webLogSave', req.body || {}, (res) => {
 
         }, (error) => {
