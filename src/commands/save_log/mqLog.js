@@ -15,6 +15,11 @@ class SaveLog extends Base {
         return '解析mq日志, 按日志创建时间将原日志和解析后合法的json日志落在log文件中, 每运行30s自动退出'
     }
 
+    /**
+     * 收集log
+     * @param {*} args 
+     * @param {*} options 
+     */
     async execute (args, options) {
         console.log('测试')
         mq.receiveQueueMsg('webLogSave', (res) => {
