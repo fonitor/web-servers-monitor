@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.7.31)
 # Database: web
-# Generation Time: 2020-10-03 07:33:36 +0000
+# Generation Time: 2020-10-03 08:05:05 +0000
 # ************************************************************
 
 
@@ -27,6 +27,8 @@ DROP TABLE IF EXISTS `javascript_error_info`;
 
 CREATE TABLE `javascript_error_info` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `simpleUrl` text NOT NULL COMMENT '当前url',
+  `customerKey` varchar(100) NOT NULL DEFAULT '' COMMENT '唯一会话ID',
   `pageKey` varchar(50) NOT NULL DEFAULT '' COMMENT '用户标识ID',
   `deviceName` varchar(100) NOT NULL DEFAULT '' COMMENT '设备名称',
   `os` varchar(20) NOT NULL DEFAULT '' COMMENT '系统信息',
@@ -36,7 +38,7 @@ CREATE TABLE `javascript_error_info` (
   `country` varchar(20) NOT NULL DEFAULT '' COMMENT '国家',
   `province` varchar(30) NOT NULL DEFAULT '' COMMENT '省份',
   `city` varchar(30) NOT NULL DEFAULT '' COMMENT '城市',
-  `infoType` varchar(20) NOT NULL DEFAULT '' COMMENT '信息类型',
+  `uploadType` varchar(20) NOT NULL DEFAULT '' COMMENT '信息类型',
   `errorMessage` text NOT NULL COMMENT 'JS报错信息',
   `errorStack` text NOT NULL COMMENT 'JS报错堆栈',
   `browserInfo` text NOT NULL COMMENT '浏览器信息',
