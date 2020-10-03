@@ -19,8 +19,8 @@ export default class Index extends Base {
         let data = req.body || {},
             startAt = moment().format('YYYY-MM-DD hh:mm:ss'),
             endAt = moment().format('YYYY-MM-DD hh:mm:ss');
-        data.startAt = startAt
-        data.endAt = endAt
+        data.created_at = startAt
+        data.updated_at = endAt
         mq.sendQueueMsg('webLogSave', JSON.stringify(req.body) || {}, (res) => {
 
         }, (error) => {
