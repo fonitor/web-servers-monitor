@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.7.31)
 # Database: web
-# Generation Time: 2020-10-03 08:05:05 +0000
+# Generation Time: 2020-10-03 11:47:11 +0000
 # ************************************************************
 
 
@@ -18,6 +18,34 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+
+# Dump of table customer_pv
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `customer_pv`;
+
+CREATE TABLE `customer_pv` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `simpleUrl` text COMMENT '当前url',
+  `projectVersion` varchar(50) NOT NULL DEFAULT '' COMMENT '项目版本号',
+  `customerKey` varchar(100) NOT NULL DEFAULT '' COMMENT '唯一会话ID',
+  `pageKey` varchar(50) NOT NULL DEFAULT '' COMMENT '用户标识ID',
+  `deviceName` varchar(100) NOT NULL DEFAULT '' COMMENT '设备名称',
+  `os` varchar(20) NOT NULL DEFAULT '' COMMENT '系统信息',
+  `browserName` varchar(20) NOT NULL DEFAULT '' COMMENT '浏览器名称',
+  `browserVersion` text COMMENT '浏览器版本号',
+  `browserInfo` text COMMENT '浏览器版信息',
+  `monitorIp` varchar(50) NOT NULL DEFAULT '' COMMENT '用户ip',
+  `country` varchar(20) NOT NULL DEFAULT '' COMMENT '国家',
+  `province` varchar(30) NOT NULL DEFAULT '' COMMENT '省份',
+  `city` varchar(30) NOT NULL DEFAULT '' COMMENT '城市',
+  `referrer` text COMMENT '页面来源',
+  `created_at` datetime NOT NULL COMMENT '创建时间',
+  `updated_at` datetime NOT NULL COMMENT '修改时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 
 
 # Dump of table javascript_error_info
@@ -33,20 +61,29 @@ CREATE TABLE `javascript_error_info` (
   `deviceName` varchar(100) NOT NULL DEFAULT '' COMMENT '设备名称',
   `os` varchar(20) NOT NULL DEFAULT '' COMMENT '系统信息',
   `browserName` varchar(20) NOT NULL DEFAULT '' COMMENT '浏览器名称',
-  `browserVersion` text NOT NULL COMMENT '浏览器版本号',
+  `browserVersion` text COMMENT '浏览器版本号',
   `monitorIp` varchar(50) NOT NULL DEFAULT '' COMMENT '用户IP',
   `country` varchar(20) NOT NULL DEFAULT '' COMMENT '国家',
   `province` varchar(30) NOT NULL DEFAULT '' COMMENT '省份',
   `city` varchar(30) NOT NULL DEFAULT '' COMMENT '城市',
   `uploadType` varchar(20) NOT NULL DEFAULT '' COMMENT '信息类型',
-  `errorMessage` text NOT NULL COMMENT 'JS报错信息',
-  `errorStack` text NOT NULL COMMENT 'JS报错堆栈',
-  `browserInfo` text NOT NULL COMMENT '浏览器信息',
-  `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL,
+  `errorMessage` text COMMENT 'JS报错信息',
+  `errorStack` text COMMENT 'JS报错堆栈',
+  `browserInfo` text COMMENT '浏览器信息',
+  `created_at` datetime DEFAULT NULL COMMENT '创建时间',
+  `updated_at` datetime DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+LOCK TABLES `javascript_error_info` WRITE;
+/*!40000 ALTER TABLE `javascript_error_info` DISABLE KEYS */;
+
+INSERT INTO `javascript_error_info` (`id`, `simpleUrl`, `customerKey`, `pageKey`, `deviceName`, `os`, `browserName`, `browserVersion`, `monitorIp`, `country`, `province`, `city`, `uploadType`, `errorMessage`, `errorStack`, `browserInfo`, `created_at`, `updated_at`)
+VALUES
+	(1,'http://localhost:8080/','4634e624-162d-4b8c-9d08-a3a85fd661fc-1600500588181','','iphone 6/7/8','ios 13.2.3','',NULL,'117.144.207.139','中国','上海','上海','js_error','ReferenceError%3A%20Uncaught%20ReferenceError%3A%20ss%20is%20not%20defined','ReferenceError: ss is not defined\n    at eval (webpack-internal:///./src/main.js:45:15)','','2020-10-03 05:04:44','2020-10-03 05:04:44');
+
+/*!40000 ALTER TABLE `javascript_error_info` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Dump of table project
@@ -80,8 +117,8 @@ CREATE TABLE `user` (
   `nickname` varchar(50) NOT NULL DEFAULT '' COMMENT '登录名称',
   `password` varchar(100) NOT NULL DEFAULT '' COMMENT '登录密码',
   `groupId` tinyint(1) DEFAULT NULL COMMENT '人员分组的ID，权限控制',
-  `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL,
+  `created_at` datetime NOT NULL COMMENT '创建时间',
+  `updated_at` datetime NOT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
