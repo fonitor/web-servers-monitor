@@ -59,7 +59,6 @@ class JavascriptModel {
                 Logger.log(err.message, 'javascript_error_info    add   出错')
                 return []
             })
-        console.log(insertResult)
         let id = _.get(insertResult, [0], 0)
 
         return id > 0
