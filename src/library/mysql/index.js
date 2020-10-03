@@ -3,7 +3,7 @@ import sqlConfig from '../../config/mysql'
 import Logger from '../logger'
 
 const Knex = knex({
-    lient: 'mysql',
+    client: 'mysql',
     connection: {
         host: sqlConfig.host,
         port: sqlConfig.port,
@@ -30,3 +30,5 @@ const Knex = knex({
         }
     }
 })
+
+export default Knex

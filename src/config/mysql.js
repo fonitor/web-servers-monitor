@@ -1,5 +1,5 @@
 // mysql 配置。 mysql 使用参见 https://dev.mysql.com/doc/refman/8.0/en/
-import env from '~/src/configs/env'
+import env from './env'
 
 // 下面的特定环境可以深度合并到上面的默认环境
 // 线上环境是上面的默认环境，不要乱改哦

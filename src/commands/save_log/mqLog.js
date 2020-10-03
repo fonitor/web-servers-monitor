@@ -1,6 +1,7 @@
 import Base from '../base'
 import RabbitMq from '../../library/mq/index'
-import Utils from '../../common/utils'
+import ErrorSave from '../../common/err_save'
+const errprSave = new ErrorSave()
 
 const mq = new RabbitMq()
 // const MAX_RUN_TIME = 29 * 1000 // 29s后自动关闭
@@ -23,14 +24,7 @@ class SaveLog extends Base {
      */
     async execute (args, options) {
         mq.receiveQueueMsg('webLogSave', (res) => {
-            let useData = JSON.parse(res)
-            if (!!useData.monitorIp) {
-                let ipResult = Utils.getInstance().getIp(useData.monitorIp) || {}
-                useData.country = ipResult.country || ""
-                useData.province =ipResult.province || ""
-                useData.city = ipResult.city
-            }
-            console.log(useData)
+            errprSave.save(res)
         }, (error) => {
 
         })

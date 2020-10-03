@@ -1,5 +1,10 @@
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
 var _knex = _interopRequireDefault(require("knex"));
 
 var _mysql = _interopRequireDefault(require("../../config/mysql"));
@@ -9,7 +14,7 @@ var _logger = _interopRequireDefault(require("../logger"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 const Knex = (0, _knex.default)({
-  lient: 'mysql',
+  client: 'mysql',
   connection: {
     host: _mysql.default.host,
     port: _mysql.default.port,
@@ -37,4 +42,6 @@ const Knex = (0, _knex.default)({
 
   }
 });
+var _default = Knex;
+exports.default = _default;
 //# sourceMappingURL=index.js.map
