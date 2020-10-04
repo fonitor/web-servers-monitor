@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.7.31)
 # Database: web
-# Generation Time: 2020-10-03 11:47:11 +0000
+# Generation Time: 2020-10-04 00:17:51 +0000
 # ************************************************************
 
 
@@ -41,8 +41,8 @@ CREATE TABLE `customer_pv` (
   `province` varchar(30) NOT NULL DEFAULT '' COMMENT '省份',
   `city` varchar(30) NOT NULL DEFAULT '' COMMENT '城市',
   `referrer` text COMMENT '页面来源',
-  `created_at` datetime NOT NULL COMMENT '创建时间',
-  `updated_at` datetime NOT NULL COMMENT '修改时间',
+  `createdAt` datetime NOT NULL COMMENT '创建时间',
+  `updatedAt` datetime NOT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -70,17 +70,18 @@ CREATE TABLE `javascript_error_info` (
   `errorMessage` text COMMENT 'JS报错信息',
   `errorStack` text COMMENT 'JS报错堆栈',
   `browserInfo` text COMMENT '浏览器信息',
-  `created_at` datetime DEFAULT NULL COMMENT '创建时间',
-  `updated_at` datetime DEFAULT NULL COMMENT '修改时间',
+  `createdAt` datetime DEFAULT NULL COMMENT '创建时间',
+  `updatedAt` datetime DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 LOCK TABLES `javascript_error_info` WRITE;
 /*!40000 ALTER TABLE `javascript_error_info` DISABLE KEYS */;
 
-INSERT INTO `javascript_error_info` (`id`, `simpleUrl`, `customerKey`, `pageKey`, `deviceName`, `os`, `browserName`, `browserVersion`, `monitorIp`, `country`, `province`, `city`, `uploadType`, `errorMessage`, `errorStack`, `browserInfo`, `created_at`, `updated_at`)
+INSERT INTO `javascript_error_info` (`id`, `simpleUrl`, `customerKey`, `pageKey`, `deviceName`, `os`, `browserName`, `browserVersion`, `monitorIp`, `country`, `province`, `city`, `uploadType`, `errorMessage`, `errorStack`, `browserInfo`, `createdAt`, `updatedAt`)
 VALUES
-	(1,'http://localhost:8080/','4634e624-162d-4b8c-9d08-a3a85fd661fc-1600500588181','','iphone 6/7/8','ios 13.2.3','',NULL,'117.144.207.139','中国','上海','上海','js_error','ReferenceError%3A%20Uncaught%20ReferenceError%3A%20ss%20is%20not%20defined','ReferenceError: ss is not defined\n    at eval (webpack-internal:///./src/main.js:45:15)','','2020-10-03 05:04:44','2020-10-03 05:04:44');
+	(1,'http://localhost:8080/','4634e624-162d-4b8c-9d08-a3a85fd661fc-1600500588181','','iphone 6/7/8','ios 13.2.3','',NULL,'117.144.207.139','中国','上海','上海','js_error','ReferenceError%3A%20Uncaught%20ReferenceError%3A%20ss%20is%20not%20defined','ReferenceError: ss is not defined\n    at eval (webpack-internal:///./src/main.js:45:15)','','2020-10-03 05:04:44','2020-10-03 05:04:44'),
+	(2,'http://localhost:8080/','4634e624-162d-4b8c-9d08-a3a85fd661fc-1600500588181','','iphone 6/7/8','ios 13.2.3','',NULL,'','','','','js_error','ReferenceError%3A%20Uncaught%20ReferenceError%3A%20ss%20is%20not%20defined','ReferenceError: ss is not defined\n    at eval (webpack-internal:///./src/main.js:45:15)','','2020-10-04 07:56:03','2020-10-04 07:56:03');
 
 /*!40000 ALTER TABLE `javascript_error_info` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -93,14 +94,44 @@ DROP TABLE IF EXISTS `project`;
 
 CREATE TABLE `project` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `web_monitorId` int(11) NOT NULL COMMENT '监控ID',
-  `project_type` int(11) NOT NULL COMMENT '项目类型',
-  `project_name` varchar(11) NOT NULL DEFAULT '' COMMENT '项目名称',
-  `user_id` int(11) NOT NULL COMMENT '用户ID',
+  `webMonitorId` int(11) NOT NULL COMMENT '监控ID',
+  `projectType` int(11) NOT NULL COMMENT '项目类型',
+  `projectName` varchar(11) NOT NULL DEFAULT '' COMMENT '项目名称',
+  `userId` int(11) NOT NULL COMMENT '用户ID',
   `email` varchar(11) NOT NULL DEFAULT '' COMMENT '邮箱',
   `status` int(1) NOT NULL COMMENT '是否进来 1 记录 0 不记录',
-  `created_at` datetime NOT NULL COMMENT '创建时间',
-  `updated_at` datetime NOT NULL COMMENT '修改时间',
+  `createdAt` datetime NOT NULL COMMENT '创建时间',
+  `updatedAt` datetime NOT NULL COMMENT '修改时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+
+# Dump of table resource_load_info
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `resource_load_info`;
+
+CREATE TABLE `resource_load_info` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `sourceUrl` text COMMENT '静态资源的请求路径',
+  `elementType` varchar(20) NOT NULL DEFAULT '' COMMENT '静态资源的类型',
+  `status` int(11) NOT NULL COMMENT '资源状态',
+  `simpleUrl` text COMMENT '当前url',
+  `customerKey` varchar(100) NOT NULL DEFAULT '' COMMENT '唯一会话ID',
+  `pageKey` varchar(50) NOT NULL DEFAULT '' COMMENT '用户标识ID',
+  `deviceName` varchar(100) NOT NULL DEFAULT '' COMMENT '设备名称',
+  `os` varchar(20) NOT NULL DEFAULT '' COMMENT '系统信息',
+  `browserName` varchar(20) NOT NULL DEFAULT '' COMMENT '浏览器名称',
+  `browserVersion` text NOT NULL COMMENT '浏览器版本号',
+  `monitorIp` varchar(100) NOT NULL DEFAULT '' COMMENT '用户ip',
+  `country` varchar(20) NOT NULL DEFAULT '' COMMENT '国家',
+  `province` varchar(30) NOT NULL DEFAULT '' COMMENT '省份',
+  `city` varchar(30) NOT NULL DEFAULT '' COMMENT '城市',
+  `uploadType` varchar(20) NOT NULL DEFAULT '' COMMENT '错误类型',
+  `browserInfo` text COMMENT '浏览器信息',
+  `createdAt` datetime NOT NULL COMMENT '创建时间',
+  `updatedAt` datetime NOT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -117,8 +148,8 @@ CREATE TABLE `user` (
   `nickname` varchar(50) NOT NULL DEFAULT '' COMMENT '登录名称',
   `password` varchar(100) NOT NULL DEFAULT '' COMMENT '登录密码',
   `groupId` tinyint(1) DEFAULT NULL COMMENT '人员分组的ID，权限控制',
-  `created_at` datetime NOT NULL COMMENT '创建时间',
-  `updated_at` datetime NOT NULL COMMENT '修改时间',
+  `createdAt` datetime NOT NULL COMMENT '创建时间',
+  `updatedAt` datetime NOT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

@@ -44,8 +44,8 @@ class JavascriptModel {
             'errorMessage',
             'errorStack',
             'browserInfo',
-            'created_at',
-            'updated_at'
+            'createdAt',
+            'updatedAt'
         ]) {
             if (_.has(data, [column])) {
                 insertData[column] = data[column]
