@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.7.31)
 # Database: web
-# Generation Time: 2020-10-04 00:17:51 +0000
+# Generation Time: 2020-10-04 00:44:04 +0000
 # ************************************************************
 
 
@@ -114,16 +114,16 @@ DROP TABLE IF EXISTS `resource_load_info`;
 
 CREATE TABLE `resource_load_info` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `sourceUrl` text COMMENT '静态资源的请求路径',
+  `sourceUrl` text NOT NULL COMMENT '静态资源的请求路径',
   `elementType` varchar(20) NOT NULL DEFAULT '' COMMENT '静态资源的类型',
-  `status` int(11) NOT NULL COMMENT '资源状态',
+  `status` varchar(11) NOT NULL DEFAULT '' COMMENT '资源状态',
   `simpleUrl` text COMMENT '当前url',
   `customerKey` varchar(100) NOT NULL DEFAULT '' COMMENT '唯一会话ID',
   `pageKey` varchar(50) NOT NULL DEFAULT '' COMMENT '用户标识ID',
   `deviceName` varchar(100) NOT NULL DEFAULT '' COMMENT '设备名称',
   `os` varchar(20) NOT NULL DEFAULT '' COMMENT '系统信息',
   `browserName` varchar(20) NOT NULL DEFAULT '' COMMENT '浏览器名称',
-  `browserVersion` text NOT NULL COMMENT '浏览器版本号',
+  `browserVersion` text COMMENT '浏览器版本号',
   `monitorIp` varchar(100) NOT NULL DEFAULT '' COMMENT '用户ip',
   `country` varchar(20) NOT NULL DEFAULT '' COMMENT '国家',
   `province` varchar(30) NOT NULL DEFAULT '' COMMENT '省份',
@@ -135,6 +135,16 @@ CREATE TABLE `resource_load_info` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+LOCK TABLES `resource_load_info` WRITE;
+/*!40000 ALTER TABLE `resource_load_info` DISABLE KEYS */;
+
+INSERT INTO `resource_load_info` (`id`, `sourceUrl`, `elementType`, `status`, `simpleUrl`, `customerKey`, `pageKey`, `deviceName`, `os`, `browserName`, `browserVersion`, `monitorIp`, `country`, `province`, `city`, `uploadType`, `browserInfo`, `createdAt`, `updatedAt`)
+VALUES
+	(1,'aHR0cCUzQSUyRiUyRnB2LnNvaHUuY29tJTJGY2l0eWpzb24lM0ZpZSUzRHV0Zi04','script','','http://localhost:8080/','4634e624-162d-4b8c-9d08-a3a85fd661fc-1600500588181','','iphone 6/7/8','ios 13.2.3','',NULL,'','','','','resource_load','','2020-10-04 08:35:58','2020-10-04 08:35:58'),
+	(2,'aHR0cHMlM0ElMkYlMkZmYW55aS5iYWlkdS5jb20lMkZzdGF0aWMlMkZ0cmFuc2xhdGUtbW9iaWxlJTJGcGtnJTJGYWlvX2U4NTllZTdzcy5qcGc=','img','','http://localhost:8080/','4634e624-162d-4b8c-9d08-a3a85fd661fc-1600500588181','','iphone 6/7/8','ios 13.2.3','',NULL,'','','','','resource_load','','2020-10-04 08:35:58','2020-10-04 08:35:58');
+
+/*!40000 ALTER TABLE `resource_load_info` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Dump of table user

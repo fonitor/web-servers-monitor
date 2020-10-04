@@ -2,8 +2,11 @@ import Utils from '../common/utils'
 import _ from 'lodash'
 import Logger from '../library/logger'
 import * as error from '../config/err'
-import JavascriptModel from '../model/javascript_error'
+import JavascriptModel from '../model/javascript_model'
+import ResourceModel from '../model/resource_model'
+
 const javascriptModel = new JavascriptModel()
+const resourceModel = new ResourceModel()
 
 export default class ErrorSave {
     constructor() {
@@ -26,11 +29,14 @@ export default class ErrorSave {
             let ipResult = Utils.getInstance().getIp(useData.monitorIp) || {}
             useData.country = ipResult.country || ""
             useData.province =ipResult.province || ""
-            useData.city = ipResult.city
+            useData.city = ipResult.city || ""
         }
         switch(useData.uploadType) {
             case error.JS_ERROR: 
                 javascriptModel.addJavascriptError(useData)
+                break;
+            case error.RESOURCE_ERROR:
+                resourceModel.addResourceError(useData)
                 break;
             default:
 
