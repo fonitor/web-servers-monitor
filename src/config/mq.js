@@ -6,7 +6,7 @@ import env from './env'
 
 // 开发环境配置
 const development = {
-    hosts: ["amqp://localhost"];
+    hosts: ["amqp://localhost"],
     index: 0,
 }
 // 测试环境配置
