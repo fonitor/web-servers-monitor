@@ -1,10 +1,11 @@
 import amqp from 'amqplib'
+import mqConfig from '../../config/mq'
 
 
 export default class RabbitMq {
     constructor() {
-        this.hosts = ["amqp://localhost"];
-        this.index = 0;
+        this.hosts = mqConfig.hosts;
+        this.index = mqConfig.index;
         this.length = this.hosts.length;
         this.open = amqp.connect(this.hosts[this.index]);
     }
