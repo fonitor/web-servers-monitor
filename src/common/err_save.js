@@ -4,9 +4,11 @@ import Logger from '../library/logger'
 import * as error from '../config/err'
 import JavascriptModel from '../model/javascript_model'
 import ResourceModel from '../model/resource_model'
+import HttpLog from '../model/http_model'
 
 const javascriptModel = new JavascriptModel()
 const resourceModel = new ResourceModel()
+const httpLog = new HttpLog()
 
 export default class ErrorSave {
     constructor() {
@@ -37,6 +39,9 @@ export default class ErrorSave {
                 break;
             case error.RESOURCE_ERROR:
                 resourceModel.addResourceError(useData)
+                break;
+            case error.HTTP_LOG:
+                httpLog.addHttpLogSave(useData)
                 break;
             default:
 
