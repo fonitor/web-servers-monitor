@@ -1,10 +1,14 @@
 import Base from './base'
 import moment from 'moment'
 import _ from 'lodash'
+import config from '../config/common'
+import ErrorSave from '../common/err_save'
 
 import RabbitMq from '../library/mq/index'
 
 const mq = new RabbitMq()
+const errprSave = new ErrorSave()
+
 
 /**
  * 保存log
@@ -21,11 +25,18 @@ export default class Index extends Base {
             endAt = moment().format('YYYY-MM-DD hh:mm:ss');
         data.createdAt = startAt
         data.updatedAt = endAt
-        mq.sendQueueMsg('webLogSave', JSON.stringify(req.body) || {}, (res) => {
 
-        }, (error) => {
+        if (config.use.mq) {
+            mq.sendQueueMsg('webLogSave', JSON.stringify(data) || {}, (res) => {
 
-        })
+            }, (error) => {
+    
+            })
+        }
+        if (!config.use.mq) {
+            errprSave.save(data)
+        }
+        
         return this.send(res, { title: '测试返回' })
     }
 }
