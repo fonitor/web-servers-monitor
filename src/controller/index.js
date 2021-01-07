@@ -25,7 +25,6 @@ export default class Index extends Base {
             endAt = moment().format('YYYY-MM-DD hh:mm:ss');
         data.createdAt = startAt
         data.updatedAt = endAt
-
         if (config.use.mq) {
             mq.sendQueueMsg('webLogSave', JSON.stringify(data) || {}, (res) => {
 
