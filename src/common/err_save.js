@@ -5,10 +5,12 @@ import * as error from '../config/err'
 import JavascriptModel from '../model/javascript_model'
 import ResourceModel from '../model/resource_model'
 import HttpLog from '../model/http_model'
+import CustomerPv from '../model/pv_model'
 
 const javascriptModel = new JavascriptModel()
 const resourceModel = new ResourceModel()
 const httpLog = new HttpLog()
+const customerPv = new CustomerPv()
 
 export default class ErrorSave {
     constructor() {
@@ -42,6 +44,9 @@ export default class ErrorSave {
                 break;
             case error.HTTP_LOG:
                 httpLog.addHttpLogSave(useData)
+                break;
+            case error.PAGE_PV:
+                customerPv.addPvSave(useData)
                 break;
             default:
 
