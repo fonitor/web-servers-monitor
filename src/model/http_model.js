@@ -28,6 +28,8 @@ export default class HttpLog {
         let tableName = getTableName()
         let insertData = {}
         for (let column of [
+            'app',
+            'type',
             'simpleUrl',
             'customerKey',
             'pageKey',
@@ -39,18 +41,16 @@ export default class HttpLog {
             'country',
             'province',
             'city',
-            'uploadType',
+            'httpUploadType',
             'browserInfo',
             'loadTime',
             'responseText',
-            'status',
-            'statusText',
+            'httpStatus',
+            'httpUrl',
             'createdAt',
             'updatedAt'
         ]) {
-            if (_.has(data, [column])) {
-                insertData[column] = data[column]
-            }
+            insertData[column] = data[column] || ""
         }
         let insertResult = await Knex.returning('id')
             .insert(insertData)

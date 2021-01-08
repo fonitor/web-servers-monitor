@@ -26,6 +26,10 @@ import ejs from 'ejs'
 const startup = () => {
   const app = express()
 
+  app.use(bodyParser.urlencoded({ "limit":"10000000kb"})); //
+
+  app.use(bodyParser.json({ "limit":"10000000kb"})); //
+
   // view engine setup
   app.set('views', path.join(__dirname, 'views'));
   // 设置模板引擎为ejs
