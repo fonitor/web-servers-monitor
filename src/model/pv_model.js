@@ -47,9 +47,10 @@ export default class CustomerPv {
             'createdAt',
             'updatedAt'
         ]) {
-            if (_.has(data, [column])) {
-                insertData[column] = data[column]
-            }
+            insertData[column] = data[column] || ""
+            // if (_.has(data, [column])) {
+            //     insertData[column] = data[column] || ""
+            // }
         }
 
         let insertResult = await Knex.returning('id')

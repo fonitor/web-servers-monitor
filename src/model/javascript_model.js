@@ -29,6 +29,7 @@ class JavascriptModel {
         let tableName = getTableName()
         let insertData = {}
         for (let column of [
+            'app',
             'simpleUrl',
             'customerKey',
             'pageKey',
@@ -47,9 +48,7 @@ class JavascriptModel {
             'createdAt',
             'updatedAt'
         ]) {
-            if (_.has(data, [column])) {
-                insertData[column] = data[column]
-            }
+            insertData[column] = data[column] || ""
         }
         let insertResult = await Knex.returning('id')
             .insert(insertData)
