@@ -28,6 +28,7 @@ export default class CustomerPv {
         let tableName = getTableName()
         let insertData = {}
         for (let column of [
+            'app',
             'type',
             'simpleUrl',
             'referrer',
