@@ -6,6 +6,16 @@ import _ from 'lodash'
 import schedule from 'node-schedule'
 
 // https://www.npmjs.com/package/node-schedule
+// *  *  *  *  *  *
+// ┬ ┬ ┬ ┬ ┬ ┬
+// │ │ │ │ │  |
+// │ │ │ │ │ └ day of week (0 - 7) (0 or 7 is Sun)
+// │ │ │ │ └───── month (1 - 12)
+// │ │ │ └────────── day of month (1 - 31)
+// │ │ └─────────────── hour (0 - 23)
+// │ └──────────────────── minute (0 - 59)
+// └───────────────────────── second (0 - 59, OPTIONAL)
+
 export default class TaskManager extends Base {
 
     static get signature() {
@@ -33,6 +43,8 @@ export default class TaskManager extends Base {
         // 注册定时任务
         this.log('注册每分钟执行一次的任务')
         this.registerTaskRepeatPer1Minute()
+        this.log('注册每5分钟执行一次的任务')
+        this.registerTaskRepeatPer5Minute()
         this.log('注册每10分钟执行一次的任务')
         this.registerTaskRepeatPer10Minute()
         this.log('注册每1小时执行一次的任务')
@@ -52,24 +64,44 @@ export default class TaskManager extends Base {
     }
 
     /**
+     * 每5分钟的第30秒启动
+     */
+    async registerTaskRepeatPer5Minute() {
+        // 每5分钟的第30秒启动
+        schedule.scheduleJob('0 */5 * * * *', function () {
+            // pv 统计
+
+        })
+    }
+
+    /**
      * 注册每10分钟执行一次的任务
      */
     async registerTaskRepeatPer10Minute() {
+        // 每10分钟的第30秒启动
+        schedule.scheduleJob('15 */10 * * * * *', function () {
 
+        })
     }
 
     /**
      * 注册每1小时执行一次的任务
      */
     async registerTaskRepeatPer1Hour() {
+        // 每小时15分30秒启动
+        schedule.scheduleJob('30 15 * * * * *', function () {
 
+        })
     }
 
     /**
      * 注册每6小时执行一次的任务
      */
     async registerTaskRepeatPer6Hour() {
+        // 每过6小时, 在35分45秒启动
+        schedule.scheduleJob('45 35 */6 * * * *', function () {
 
+        })
     }
 
     async getOtherTaskMangerPidList() {
