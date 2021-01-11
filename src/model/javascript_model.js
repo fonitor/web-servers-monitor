@@ -32,7 +32,7 @@ class JavascriptModel {
             'app',
             'simpleUrl',
             'customerKey',
-            'pageKey',
+            'userId',
             'deviceName',
             'os',
             'browserName',
@@ -63,6 +63,160 @@ class JavascriptModel {
 
         return id > 0
 
+    }
+
+    /**
+     * 统计一段时间js 报错影响用户数
+     * @param {*} startTime 开始时间
+     * @param {*} endTime 结束时间
+     * @param {*} app
+     */
+    async getUserCount(startTime, endTime) {
+        let tableName = getTableName()
+        let res = await Knex(tableName)
+            .countDistinct('userId as uv_count')
+            .where('createdAt', '>', startTime)
+            .where('updatedAt', '<', endTime)
+            .where('app', app)
+            .catch(err => {
+                console.log(err)
+                return []
+            })
+        return res[0].uv_count
+    }
+
+    /**
+     * 统计一段时间 js错误
+     * @param {*} startTime 开始时间
+     * @param {*} endTime 结束时间
+     * @param {*} app
+     */
+    async getJsCount(startTime, endTime, app) {
+        let tableName = getTableName()
+        let res = await Knex(tableName)
+            .count('* as errorCount')
+            .where('createdAt', '>', startTime)
+            .where('updatedAt', '<', endTime)
+            .where('app', app)
+            .catch(err => {
+                console.log(err)
+                return []
+            })
+        return res[0].errorCount
+    }
+
+    /**
+     * 统计一段时间 城市报错信息（做地图分布）
+     * @param {*} startTime 
+     * @param {*} endTime 
+     * @param {*} app
+     */
+    async getProvinceCount(startTime, endTime, app) {
+        let tableName = getTableName()
+        let res = await Knex(tableName)
+            .select(['province'])
+            .count('province as provinceCount')
+            .where('createdAt', '>', startTime)
+            .andWhere('updatedAt', '<', endTime)
+            .andWhere('app', app)
+            .groupBy(['province'])
+            .catch(err => {
+                console.log(err)
+                return []
+            })
+
+        let lists = []
+        for (let item of res) {
+            let list = {}
+            list.province = item.province
+            list.provinceCount = item.provinceCount
+            lists.push(list)
+        }
+
+        return lists;
+
+    }
+
+    /**
+     * 统计一段时间 版本号报错信息（做版本号分布）
+     * @param {*} startTime 
+     * @param {*} endTime 
+     * @param {*} app
+     */
+    async getVersionCount(startTime, endTime, app) {
+        let tableName = getTableName()
+        let res = await Knex(tableName)
+            .select(['browserVersion'])
+            .count('province as browserVersionCount')
+            .where('createdAt', '>', startTime)
+            .andWhere('updatedAt', '<', endTime)
+            .andWhere('app', app)
+            .groupBy(['browserVersion'])
+            .catch(err => {
+                console.log(err)
+                return []
+            })
+
+        let lists = []
+        for (let item of res) {
+            let list = {}
+            list.province = item.browserVersion
+            list.provinceCount = item.browserVersionCount
+            lists.push(list)
+        }
+
+        return lists;
+
+    }
+
+    /**
+     * 统计一段时间 手机型号报错信息（做版本号分布）
+     * @param {*} startTime 
+     * @param {*} endTime 
+     * @param {*} app
+     */
+    async getVersionCount(startTime, endTime, app) {
+        let tableName = getTableName()
+        let res = await Knex(tableName)
+            .select(['deviceName'])
+            .count('deviceName as deviceNameCount')
+            .where('createdAt', '>', startTime)
+            .andWhere('updatedAt', '<', endTime)
+            .andWhere('app', app)
+            .groupBy(['deviceName'])
+            .catch(err => {
+                console.log(err)
+                return []
+            })
+
+        let lists = []
+        for (let item of res) {
+            let list = {}
+            list.province = item.deviceName
+            list.provinceCount = item.deviceNameCount
+            lists.push(list)
+        }
+
+        return lists;
+    }
+
+    /**
+     * js 错误分页
+     * @param {*} params 
+     */
+    async getJsPages(params) {
+        let {startTime, endTime, app} = params
+        let tableName = getTableName()
+        let res = await Knex(tableName)
+            .select(['app', 'userId', 'deviceName', 'os', 'browserName', 'browserVersion', 'errorMessage', 'errorStack', 'browserInfo', 'createdAt'])
+            .count('deviceName as deviceNameCount')
+            .where('createdAt', '>', startTime)
+            .andWhere('updatedAt', '<', endTime)
+            .andWhere('app', app)
+            .catch(err => {
+                console.log(err)
+                return []
+            })
     }
 }
 
