@@ -45,6 +45,7 @@ class JavascriptModel {
             'errorMessage',
             'errorStack',
             'browserInfo',
+            'dataDay',
             'createdAt',
             'updatedAt'
         ]) {

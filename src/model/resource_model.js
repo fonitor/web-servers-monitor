@@ -44,6 +44,7 @@ export default class ResourceModel {
             'sourceUrl',
             'elementType',
             'status',
+            'dataDay',
             'createdAt',
             'updatedAt'
         ]) {

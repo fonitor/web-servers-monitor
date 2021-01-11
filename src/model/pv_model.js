@@ -44,6 +44,7 @@ export default class CustomerPv {
             'country',
             'province',
             'city',
+            'dataDay',
             'createdAt',
             'updatedAt'
         ]) {

@@ -47,6 +47,7 @@ export default class HttpLog {
             'responseText',
             'httpStatus',
             'httpUrl',
+            'dataDay',
             'createdAt',
             'updatedAt'
         ]) {
