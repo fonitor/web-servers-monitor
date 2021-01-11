@@ -32,7 +32,7 @@ function registerRouterByMethod(routerConfig, url) {
 
 /* GET home page. */
 router.get('/', function (req, res) {
-  res.json({ title: '测试返回' })
+  res.json({ title: '根路径' })
 })
 
 // 自动注册

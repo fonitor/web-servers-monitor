@@ -50,7 +50,7 @@ function registerRouterByMethod(routerConfig, url) {
 
 router.get('/', function (req, res) {
   res.json({
-    title: '测试返回'
+    title: '根路径'
   });
 }); // 自动注册
 

@@ -36,6 +36,6 @@ export default class Index extends Base {
             errprSave.save(data)
         }
         
-        return this.send(res, { title: '测试返回' })
+        return this.send(res, { title: '保存成功' })
     }
 }
