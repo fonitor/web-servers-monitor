@@ -205,18 +205,21 @@ class JavascriptModel {
      * @param {*} params 
      */
     async getJsPages(params) {
-        let {startTime, endTime, app} = params
+        let { startTime, endTime, app, pageSize, page } = params
         let tableName = getTableName()
-        let res = await Knex(tableName)
-            .select(['app', 'userId', 'deviceName', 'os', 'browserName', 'browserVersion', 'errorMessage', 'errorStack', 'browserInfo', 'createdAt'])
-            .count('deviceName as deviceNameCount')
+        let res = await Knex.select('id', 'app', 'userId', 'deviceName', 'os', 'browserName', 'browserVersion', 'errorMessage', 'errorStack', 'browserInfo', 'createdAt')
+            .from(tableName)
             .where('createdAt', '>', startTime)
             .andWhere('updatedAt', '<', endTime)
             .andWhere('app', app)
+            .limit(pageSize)
+            .offset((page * pageSize) - pageSize)
             .catch(err => {
                 console.log(err)
                 return []
             })
+
+        return res
     }
 }
 
