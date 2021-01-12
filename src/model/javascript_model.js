@@ -71,13 +71,13 @@ class JavascriptModel {
      * @param {*} endTime 结束时间
      * @param {*} app
      */
-    async getUserCount(startTime, endTime) {
+    async getUserCount(startTime, endTime, app) {
         let tableName = getTableName()
         let res = await Knex(tableName)
             .countDistinct('userId as uv_count')
             .where('createdAt', '>', startTime)
-            .where('updatedAt', '<', endTime)
-            .where('app', app)
+            .andWhere('createdAt', '<', endTime)
+            .andWhere('app', app)
             .catch(err => {
                 console.log(err)
                 return []
@@ -96,8 +96,8 @@ class JavascriptModel {
         let res = await Knex(tableName)
             .count('* as errorCount')
             .where('createdAt', '>', startTime)
-            .where('updatedAt', '<', endTime)
-            .where('app', app)
+            .andWhere('createdAt', '<', endTime)
+            .andWhere('app', app)
             .catch(err => {
                 console.log(err)
                 return []
@@ -117,7 +117,7 @@ class JavascriptModel {
             .select(['province'])
             .count('province as provinceCount')
             .where('createdAt', '>', startTime)
-            .andWhere('updatedAt', '<', endTime)
+            .andWhere('createdAt', '<', endTime)
             .andWhere('app', app)
             .groupBy(['province'])
             .catch(err => {
@@ -149,7 +149,7 @@ class JavascriptModel {
             .select(['browserVersion'])
             .count('province as browserVersionCount')
             .where('createdAt', '>', startTime)
-            .andWhere('updatedAt', '<', endTime)
+            .andWhere('createdAt', '<', endTime)
             .andWhere('app', app)
             .groupBy(['browserVersion'])
             .catch(err => {
@@ -175,13 +175,13 @@ class JavascriptModel {
      * @param {*} endTime 
      * @param {*} app
      */
-    async getVersionCount(startTime, endTime, app) {
+    async getDeviceCount(startTime, endTime, app) {
         let tableName = getTableName()
         let res = await Knex(tableName)
             .select(['deviceName'])
             .count('deviceName as deviceNameCount')
             .where('createdAt', '>', startTime)
-            .andWhere('updatedAt', '<', endTime)
+            .andWhere('createdAt', '<', endTime)
             .andWhere('app', app)
             .groupBy(['deviceName'])
             .catch(err => {
@@ -210,7 +210,7 @@ class JavascriptModel {
         let res = await Knex.select('id', 'app', 'userId', 'deviceName', 'os', 'browserName', 'browserVersion', 'errorMessage', 'errorStack', 'browserInfo', 'createdAt')
             .from(tableName)
             .where('createdAt', '>', startTime)
-            .andWhere('updatedAt', '<', endTime)
+            .andWhere('createdAt', '<', endTime)
             .andWhere('app', app)
             .limit(pageSize)
             .offset((page * pageSize) - pageSize)
@@ -219,6 +219,25 @@ class JavascriptModel {
                 return []
             })
 
+        return res
+    }
+
+    /**
+     * 统计一段时间每个项目错误数量
+     * @param {*} startTime 
+     * @param {*} endTime 
+     */
+    async getGroupAppCount(startTime, endTime) {
+        let tableName = getTableName()
+        let res = await Knex(tableName)
+            .count('* as errorCount')
+            .where('createdAt', '>=', startTime)
+            .andWhere('createdAt', '<=', endTime)
+            .groupBy(['app'])
+            .catch(err => {
+                console.log(err)
+                return []
+            })
         return res
     }
 }
