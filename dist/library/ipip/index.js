@@ -63,4 +63,3 @@ var _default = {
   ip2Locate
 };
 exports.default = _default;
-//# sourceMappingURL=index.js.map

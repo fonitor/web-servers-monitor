@@ -62,4 +62,3 @@ for (let url of Object.keys(routerConfigMap)) {
 
 var _default = router;
 exports.default = _default;
-//# sourceMappingURL=index.js.map

@@ -60,6 +60,7 @@ export default class TaskManager extends Base {
     async registerTaskRepeatPer1Minute() {
         schedule.scheduleJob('0 */1 * * * *', () => {
             this.log('测试执行1分钟')
+            
         })
     }
 
@@ -69,8 +70,19 @@ export default class TaskManager extends Base {
     async registerTaskRepeatPer5Minute() {
         // 每5分钟的第30秒启动
         schedule.scheduleJob('0 */5 * * * *', function () {
-            // pv 统计
+            this.log('测试执行5分钟')
+            // js 错误 统计
+            let startTime = moment().subtract(5, "minutes").format("YYYY-MM-DD HH:mm:00"),
+                endTime = moment().format('YYYY-MM-DD hh:mm:00');
 
+            let summaryCommandList = [
+                'Js:Error',
+            ]
+
+            for (let summaryCommand of summaryCommandList) {
+                // 当日数据
+                this.dispatchParseCommand(summaryCommand, startTime, endTime)
+            }
         })
     }
 
@@ -162,25 +174,4 @@ export default class TaskManager extends Base {
         process.exit(1)
     }
 
-    /**
-     * 执行命令
-     * @param {*} commandName 
-     * @param {*} args 
-     */
-    async execCommand(commandName, args) {
-        let argvString = args.map((arg) => { return `'${arg}'` }).join('   ')
-        let command = `NODE_ENV=${env} node ${projectBaseUri}/dist/fee.js ${commandName}  ${argvString}`
-        this.log(`待执行命令=> ${command}`)
-        let commandStartAtFormated = moment().format(DATE_FORMAT.DISPLAY_BY_MILLSECOND)
-        let commandStartAtms = moment().valueOf()
-        shell.exec(command, {
-            async: true,
-            silent: true
-        }, () => {
-            let commandFinishAtFormated = moment().format(DATE_FORMAT.DISPLAY_BY_MILLSECOND)
-            let commandFinishAtms = moment().valueOf()
-            let during = (commandFinishAtms - commandStartAtms) / 1000
-            this.log(`${command}命令执行完毕, 共用时${during}秒, 开始执行时间=> ${commandStartAtFormated}, 执行完毕时间=> ${commandFinishAtFormated}`)
-        })
-    }
 }

@@ -206,4 +206,3 @@ var _default = {
   error
 };
 exports.default = _default;
-//# sourceMappingURL=index.js.map

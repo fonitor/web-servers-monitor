@@ -32,4 +32,3 @@ let config = {
 };
 var _default = config[_env.default];
 exports.default = _default;
-//# sourceMappingURL=mysql.js.map

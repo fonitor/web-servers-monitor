@@ -44,4 +44,3 @@ const Knex = (0, _knex.default)({
 });
 var _default = Knex;
 exports.default = _default;
-//# sourceMappingURL=index.js.map

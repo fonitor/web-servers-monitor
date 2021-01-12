@@ -162,4 +162,3 @@ class RedisClient {
 let client = new RedisClient();
 var _default = client;
 exports.default = _default;
-//# sourceMappingURL=index.js.map
