@@ -18,7 +18,6 @@ function getTableName() {
 
 class JavascriptModel {
     constructor() {
-
     }
 
     /**
@@ -230,6 +229,7 @@ class JavascriptModel {
     async getGroupAppCount(startTime, endTime) {
         let tableName = getTableName()
         let res = await Knex(tableName)
+            .select('app')
             .count('* as errorCount')
             .where('createdAt', '>=', startTime)
             .andWhere('createdAt', '<=', endTime)

@@ -37,8 +37,8 @@ class JsCountModel {
         ]) {
             insertData[column] = data[column] || ""
         }
-        insertData.createdAt = insertData.createdAt || moment().format('YYYY-MM-DD hh:mm:ss')
-        insertData.updatedAt = insertData.updatedAt || moment().format('YYYY-MM-DD hh:mm:ss')
+        insertData.createdAt = insertData.createdAt || moment().format('YYYY-MM-DD HH:mm:ss')
+        insertData.updatedAt = insertData.updatedAt || moment().format('YYYY-MM-DD HH:mm:ss')
         let insertResult = await Knex.returning('id')
             .insert(insertData)
             .into(tableName)

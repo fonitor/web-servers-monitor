@@ -21,8 +21,8 @@ export default class Index extends Base {
      */
     saveLog(req, res) {
         let data = req.body || {},
-            startAt = moment().format('YYYY-MM-DD hh:mm:ss'),
-            endAt = moment().format('YYYY-MM-DD hh:mm:ss');
+            startAt = moment().format('YYYY-MM-DD HH:mm:ss'),
+            endAt = moment().format('YYYY-MM-DD HH:mm:ss');
         data.createdAt = startAt
         data.updatedAt = endAt
         data.dataDay = moment().format('YYYY-MM-DD');
