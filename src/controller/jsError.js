@@ -45,10 +45,13 @@ export default class jsError extends Base {
      * @param {*} res 
      */
     async getJsList(req, res) {
-        let data = req.body || {}
+        let data = req.body || {},
+            result = {}
         data.startTime = data.startTime || moment().format('YYYY-MM-DD 00:00:00')
         data.endTime = data.endTime || moment().format('YYYY-MM-DD 23:59:00')
-        return this.send(res, await jsModel.getJsPages(data))
+        result.lists = await jsModel.getJsPages(data)
+        result.count = await jsModel.getJsCount(data.startTime, data.endTime, data.app)
+        return this.send(res, result)
     }
 
     /**

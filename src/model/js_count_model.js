@@ -71,17 +71,17 @@ class JsCountModel {
             .where('createdAt', '>', startTime)
             .andWhere('updatedAt', '<', endTime)
             .andWhere('app', app)
-            .limit(pageSize)
-            .offset((page * pageSize) - pageSize)
+            // .limit(pageSize)
+            // .offset((page * pageSize) - pageSize)
             .catch(err => {
                 console.log(err)
                 return []
             })
         
-        console.log(res)
         let lists = []
         for (let item of res) {
             item.createdAt = moment(item.createdAt).format(DATE_FORMAT.DISPLAY_BY_MILLSECOND)
+            item.time = moment(item.createdAt).format("HH:mm")
             item.updatedAt = moment(item.updatedAt).format(DATE_FORMAT.DISPLAY_BY_MILLSECOND)
             lists.push(item)
         }
