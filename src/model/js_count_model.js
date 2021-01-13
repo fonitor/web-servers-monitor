@@ -3,6 +3,8 @@ import moment from 'moment'
 import _ from 'lodash'
 import Logger from '../library/logger'
 
+import DATE_FORMAT from '../constants/date_format'
+
 const BASE_TABLE_NAME = 'js_count'
 const TABLE_COLUMN = [
 
@@ -29,13 +31,18 @@ class JsCountModel {
         let tableName = getTableName()
         let insertData = {}
         for (let column of [
+            'app',
             'type',
             'count',
             'dataTime',
             'createdAt',
             'updatedAt'
         ]) {
-            insertData[column] = data[column] || ""
+            if (_.has(data, [column])) {
+                insertData[column] = data[column]
+            } else {
+                insertData[column] = data[column] || ""
+            }
         }
         insertData.createdAt = insertData.createdAt || moment().format('YYYY-MM-DD HH:mm:ss')
         insertData.updatedAt = insertData.updatedAt || moment().format('YYYY-MM-DD HH:mm:ss')
@@ -70,8 +77,16 @@ class JsCountModel {
                 console.log(err)
                 return []
             })
+        
+        console.log(res)
+        let lists = []
+        for (let item of res) {
+            item.createdAt = moment(item.createdAt).format(DATE_FORMAT.DISPLAY_BY_MILLSECOND)
+            item.updatedAt = moment(item.updatedAt).format(DATE_FORMAT.DISPLAY_BY_MILLSECOND)
+            lists.push(item)
+        }
 
-        return res
+        return lists
     }
 }
 

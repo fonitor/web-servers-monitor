@@ -69,7 +69,7 @@ export default class TaskManager extends Base {
      */
     async registerTaskRepeatPer5Minute() {
         // 每5分钟的第30秒启动
-        schedule.scheduleJob('0 */5 * * * *', function () {
+        schedule.scheduleJob('0 */5 * * * *', () => {
             this.log('测试执行5分钟')
             // js 错误 统计
             let startTime = moment().subtract(5, "minutes").format("YYYY-MM-DD HH:mm:00"),

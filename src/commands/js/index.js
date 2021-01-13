@@ -3,11 +3,13 @@
 import Base from "../base";
 import JsCountModel from '../../model/js_count_model'
 import JavascriptModel from '../../model/javascript_model'
+import Project from '../../model/project_model'
 import moment from 'moment'
 import DATE_FORMAT from '../../constants/date_format'
 
 const javascriptModel = new JavascriptModel()
 const jsModel = new JsCountModel()
+const projectModel = new Project()
 
 class JsError extends Base {
   static get signature() {
@@ -33,27 +35,35 @@ class JsError extends Base {
       this.warn('参数不正确, 自动退出')
       return
     }
-    let jsErrors = await javascriptModel.getGroupAppCount(startTime, endTime);
-    if (!jsErrors || jsErrors.length <= 0) {
+    let projectLists = await projectModel.getLists()
+    if (!projectLists || projectLists.length <= 0) {
       return
     }
-    for (let error of jsErrors) {
-      this.handleSaveJs(error)
+    for (let project of projectLists) {
+      try {
+         let jsErrors = await javascriptModel.getJsCount(startTime, endTime, project.app);
+         console.log(jsErrors)
+         this.handleSaveJs(project.app, jsErrors, endTime)
+      }catch(err) {
+        this.handleSaveJs(project.app, 0, endTime)
+      }
     }
   }
 
   /**
    * 保存统计好的错误信息
-   * @param {*} error 
+   * @param {*} app 
+   * @param {*} count 
+   * @param {*} time 
    */
-  async handleSaveJs(error) {
+  async handleSaveJs(app, count, time) {
     let item = {}
-    item.app = error.app
+    item.app = app
     item.type = 1
-    item.count = error.errorCount
+    item.count = count
     item.dataTime = moment().format(DATE_FORMAT.DISPLAY_BY_DAY)
-    item.createdAt = moment().format(DATE_FORMAT.DISPLAY_BY_MILLSECOND)
-    item.updatedAt = moment().format(DATE_FORMAT.DISPLAY_BY_MILLSECOND)
+    item.createdAt = time
+    item.updatedAt = time
     jsModel.addJavascriptError(item)
   }
 
