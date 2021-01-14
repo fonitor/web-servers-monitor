@@ -118,6 +118,7 @@ class JavascriptModel {
             .count('province as provinceCount')
             .where('createdAt', '>', startTime)
             .andWhere('createdAt', '<', endTime)
+            .andWhere('province', '!=', '')
             .andWhere('app', app)
             .groupBy(['province'])
             .catch(err => {
@@ -128,8 +129,8 @@ class JavascriptModel {
         let lists = []
         for (let item of res) {
             let list = {}
-            list.province = item.province
-            list.provinceCount = item.provinceCount
+            list.name = item.province
+            list.value = item.provinceCount
             lists.push(list)
         }
 
@@ -160,8 +161,8 @@ class JavascriptModel {
         let lists = []
         for (let item of res) {
             let list = {}
-            list.province = item.browserVersion
-            list.provinceCount = item.browserVersionCount
+            list.name = item.browserVersion
+            list.value = item.browserVersionCount
             lists.push(list)
         }
 
@@ -192,8 +193,39 @@ class JavascriptModel {
         let lists = []
         for (let item of res) {
             let list = {}
-            list.province = item.deviceName
-            list.provinceCount = item.deviceNameCount
+            list.name = item.deviceName
+            list.value = item.deviceNameCount
+            lists.push(list)
+        }
+
+        return lists;
+    }
+
+    /**
+     * 统计一段时间 操作系统（做版本号分布）
+     * @param {*} startTime 
+     * @param {*} endTime 
+     * @param {*} app
+     */
+    async getOsCount(startTime, endTime, app) {
+        let tableName = getTableName()
+        let res = await Knex(tableName)
+            .select(['os'])
+            .count('os as osCount')
+            .where('createdAt', '>', startTime)
+            .andWhere('createdAt', '<', endTime)
+            .andWhere('app', app)
+            .groupBy(['os'])
+            .catch(err => {
+                console.log(err)
+                return []
+            })
+
+        let lists = []
+        for (let item of res) {
+            let list = {}
+            list.name = item.os
+            list.value = item.osCount
             lists.push(list)
         }
 
