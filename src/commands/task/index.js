@@ -73,7 +73,7 @@ export default class TaskManager extends Base {
             this.log('测试执行5分钟')
             // js 错误 统计
             let startTime = moment().subtract(5, "minutes").format("YYYY-MM-DD HH:mm:00"),
-                endTime = moment().format('YYYY-MM-DD hh:mm:00');
+                endTime = moment().format('YYYY-MM-DD HH:mm:00');
 
             let summaryCommandList = [
                 'Js:Error',

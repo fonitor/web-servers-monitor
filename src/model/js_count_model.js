@@ -80,9 +80,9 @@ class JsCountModel {
         
         let lists = []
         for (let item of res) {
-            item.createdAt = moment(item.createdAt).format(DATE_FORMAT.DISPLAY_BY_MILLSECOND)
+            item.createdAt = moment(item.createdAt).format(DATE_FORMAT.DISPLAY_BY_SECOND)
             item.time = moment(item.createdAt).format("HH:mm")
-            item.updatedAt = moment(item.updatedAt).format(DATE_FORMAT.DISPLAY_BY_MILLSECOND)
+            item.updatedAt = moment(item.updatedAt).format(DATE_FORMAT.DISPLAY_BY_SECOND)
             lists.push(item)
         }
 

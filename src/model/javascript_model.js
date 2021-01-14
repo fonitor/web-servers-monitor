@@ -2,6 +2,7 @@ import Knex from '../library/mysql'
 import moment from 'moment'
 import _ from 'lodash'
 import Logger from '../library/logger'
+import DATE_FORMAT from '../constants/date_format'
 
 const BASE_TABLE_NAME = 'javascript_error_info'
 const TABLE_COLUMN = [
@@ -217,6 +218,13 @@ class JavascriptModel {
                 console.log(err)
                 return []
             })
+
+        let lists = []
+        for (let item of res) {
+            item.createdAt = moment(item.createdAt).format(DATE_FORMAT.DISPLAY_BY_SECOND)
+            item.updatedAt = moment(item.updatedAt).format(DATE_FORMAT.DISPLAY_BY_SECOND)
+            lists.push(item)
+        }
 
         return res
     }
