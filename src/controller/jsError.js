@@ -73,6 +73,8 @@ export default class jsError extends Base {
         result.deviceError = await jsModel.getDeviceCount(data.startTime, data.endTime, data.app)
         // 操作系统
         result.osError = await jsModel.getOsCount(data.startTime, data.endTime, data.app)
+        // 错误总数
+        result.errorCount = await jsModel.proviceCounts(data.startTime, data.endTime, data.app)
 
         return this.send(res, result)
     }

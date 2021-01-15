@@ -106,6 +106,27 @@ class JavascriptModel {
     }
 
     /**
+     * 城市报错总数
+     * @param {*} startTime 
+     * @param {*} endTime 
+     * @param {*} app 
+     */
+    async proviceCounts(startTime, endTime, app) {
+        let tableName = getTableName()
+        let res = await Knex(tableName)
+            .count('* as errorCount')
+            .where('createdAt', '>', startTime)
+            .andWhere('createdAt', '<', endTime)
+            .andWhere('app', app)
+            .andWhere('province', '!=', '')
+            .catch(err => {
+                console.log(err)
+                return []
+            })
+        return res[0].errorCount
+    }
+
+    /**
      * 统计一段时间 城市报错信息（做地图分布）
      * @param {*} startTime 
      * @param {*} endTime 
