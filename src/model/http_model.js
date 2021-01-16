@@ -21,7 +21,7 @@ export default class HttpLog {
     }
 
     /**
-     * 添加js错误信息
+     * 添加http错误信息
      * @param {*} data 
      */
     async addHttpLogSave(data) {
@@ -32,7 +32,7 @@ export default class HttpLog {
             'type',
             'simpleUrl',
             'customerKey',
-            'pageKey',
+            'userId',
             'deviceName',
             'os',
             'browserName',
@@ -48,6 +48,7 @@ export default class HttpLog {
             'httpStatus',
             'httpUrl',
             'dataDay',
+            'mobileTime',
             'createdAt',
             'updatedAt'
         ]) {
@@ -64,6 +65,27 @@ export default class HttpLog {
         let id = _.get(insertResult, [0], 0)
 
         return id > 0
+    }
 
+    /**
+     * 统计一段时间http
+     * @param {*} startTime 开始时间
+     * @param {*} endTime 结束时间
+     * @param {*} app
+     */
+    async getTypeCount(startTime, endTime, app) {
+        let tableName = getTableName()
+        let res = await Knex(tableName)
+            .select('app', 'httpUploadType', 'httpStatus')
+            .count('* as count')
+            .where('createdAt', '>', startTime)
+            .andWhere('createdAt', '<', endTime)
+            // .andWhere('app', app)
+            .groupBy(['app', 'httpUploadType', 'httpStatus'])
+            .catch(err => {
+                console.log(err)
+                return []
+            })
+        return res
     }
 }

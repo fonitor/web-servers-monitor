@@ -46,6 +46,7 @@ class JavascriptModel {
             'errorStack',
             'browserInfo',
             'dataDay',
+            'mobileTime',
             'createdAt',
             'updatedAt'
         ]) {

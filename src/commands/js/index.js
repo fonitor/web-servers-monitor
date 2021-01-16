@@ -21,7 +21,7 @@ class JsError extends Base {
   }
 
   static get description() {
-    return '[按每隔5分钟] 解析mysql日志, 分析记录指定时间范围内的js 错误'
+    return '[按每隔1分钟] 解析mysql日志, 分析记录指定时间范围内的js 错误'
   }
 
   /**
@@ -42,7 +42,6 @@ class JsError extends Base {
     for (let project of projectLists) {
       try {
          let jsErrors = await javascriptModel.getJsCount(startTime, endTime, project.app);
-         console.log(jsErrors)
          this.handleSaveJs(project.app, jsErrors, endTime)
       }catch(err) {
         this.handleSaveJs(project.app, 0, endTime)

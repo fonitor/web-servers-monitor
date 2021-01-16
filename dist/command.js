@@ -18,7 +18,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 const registedCommandList = ['./commands/demo', // 命令demo测试
 './commands/task/index', // 定时任务
 './commands/save_log/mqLog', // saveLog
-'./commands/js/index' // 统计每隔5分钟js错误
+'./commands/js/index', // 统计每隔1分钟js错误
+'./commands/http/index' // 统计每隔1分钟http 请求
 ]; // register commands
 
 for (let command of registedCommandList) {
