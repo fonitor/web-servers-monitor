@@ -4,7 +4,7 @@ import RouterConfigBuilder from '../../../library/utils/router_config_builder'
 
 const jsController = new jsError()
 
-// 每隔5分钟图表
+// 每隔1分钟图表
 const jsCount = RouterConfigBuilder.routerConfigBuilder('/api/js/count', RouterConfigBuilder.METHOD_TYPE_POST, (req, res) => {
     return jsController.jsCount(req, res)
 })

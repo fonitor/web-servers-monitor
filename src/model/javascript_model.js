@@ -280,7 +280,7 @@ class JavascriptModel {
             lists.push(item)
         }
 
-        return res
+        return lists
     }
 
     /**
