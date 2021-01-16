@@ -1,5 +1,6 @@
 import Knex from '../library/mysql'
 import moment from 'moment'
+import DATE_FORMAT from '../constants/date_format'
 import _ from 'lodash'
 import Logger from '../library/logger'
 
@@ -30,7 +31,6 @@ class Project {
         for (let column of [
             'projectType',
             'app',
-            'userId',
             'status',
             'createdAt',
             'updatedAt'
@@ -60,6 +60,38 @@ class Project {
             .select('app')
             .from(tableName);
         return res
+    }
+
+    async getProjectCount() {
+        let tableName = getTableName()
+        let res = await Knex.from(tableName).count('id as count');
+        return res[0].count
+    }
+
+    /**
+     * 分页项目列表
+     * @param {*} params 
+     */
+    async getListsPage(params) {
+        let { pageSize, page } = params
+        let tableName = getTableName()
+        let res = await Knex.select('*')
+            .from(tableName)
+            .limit(pageSize)
+            .offset((page * pageSize) - pageSize)
+            .catch(err => {
+                console.log(err)
+                return []
+            })
+
+        let lists = []
+        for (let item of res) {
+            item.createdAt = moment(item.createdAt).format(DATE_FORMAT.DISPLAY_BY_SECOND)
+            item.updatedAt = moment(item.updatedAt).format(DATE_FORMAT.DISPLAY_BY_SECOND)
+            lists.push(item)
+        }
+
+        return lists
     }
 
 }
