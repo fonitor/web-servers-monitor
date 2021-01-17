@@ -23,4 +23,18 @@ export default class ProjectController extends Base {
         result.count = await projectModel.getProjectCount()
         return this.send(res, result)
     }
+
+    /**
+     * 添加项目
+     * @param {*} req 
+     * @param {*} res 
+     */
+    async saveProject(req, res) {
+        let data = req.body || {},
+            result = {}
+        data.createdAt = moment().format('YYYY-MM-DD HH:mm:ss')
+        data.updatedAt = moment().format('YYYY-MM-DD HH:mm:ss')
+        result.id = await projectModel.saveProject(data)
+        return this.send(res, result)
+    }
 }

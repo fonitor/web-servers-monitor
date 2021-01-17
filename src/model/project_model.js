@@ -25,13 +25,12 @@ class Project {
      * 添加项目
      * @param {*} data 
      */
-    async addJavascriptError(data) {
+    async saveProject(data) {
         let tableName = getTableName()
         let insertData = {}
         for (let column of [
             'projectType',
             'app',
-            'status',
             'createdAt',
             'updatedAt'
         ]) {
