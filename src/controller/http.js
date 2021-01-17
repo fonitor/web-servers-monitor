@@ -3,9 +3,11 @@ import moment from 'moment'
 import _ from 'lodash'
 import * as config from '../config/err'
 import HttpCountModel from '../model/http_count_model'
+import HttpLogModel from '../model/http_model'
 import DATE_FORMAT from '../constants/date_format'
 
 const httpCountModel = new HttpCountModel()
+const httpLogModel = new HttpLogModel()
 
 /**
  * http
@@ -41,6 +43,24 @@ export default class HttpController extends Base {
         }
         result.errorLists = errorLists
         result.successLists = successLists
+        return this.send(res, result)
+    }
+
+    /**
+     * 请求明细
+     * @param {*} req 
+     * @param {*} res 
+     */
+    async apiList(req, res) {
+        let data = req.body || {},
+            result = {}
+        data.startTime = data.startTime || moment().format('YYYY-MM-DD 00:00:00')
+        data.endTime = data.endTime || moment().format('YYYY-MM-DD 23:59:00')
+        data.app = data.app || ""
+
+        result.lists = await httpLogModel.getApiCountLists(data)
+        result.count = await httpLogModel.getApiCount(data)
+
         return this.send(res, result)
     }
 }
