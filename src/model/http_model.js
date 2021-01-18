@@ -118,11 +118,13 @@ export default class HttpLog {
      * @param {*} params 
      */
     async getApiCount(params) {
-        let { app } = params
+        let { startTime, endTime, app } = params
         let tableName = getTableName()
         let res = await Knex.select('simpleUrl', 'httpUrl')
             .from(tableName)
             .count('httpUrl as httpUrlCount')
+            .where('createdAt', '>', startTime)
+            .andWhere('createdAt', '<', endTime)
             .andWhere('app', app)
             .groupBy('httpUrl', 'simpleUrl')
             .catch(err => {
@@ -131,5 +133,53 @@ export default class HttpLog {
             })
 
         return res.length
+    }
+
+    /**
+     * 获取错误信息
+     * @param {*} startTime 
+     * @param {*} endTime 
+     * @param {*} httpUrls 
+     */
+    async getApiStatusError(startTime, endTime, httpUrls) {
+        let tableName = getTableName()
+        let res = await Knex.select('httpUrl', 'httpStatus')
+            .from(tableName)
+            .count('httpUrl as httpUrlCount')
+            .where('createdAt', '>', startTime)
+            .andWhere('createdAt', '<', endTime)
+            .whereIn('httpUrl', httpUrls)
+            .groupBy('httpUrl', 'httpStatus')
+            .catch(err => {
+                console.log(err)
+                return []
+            })
+
+        return res
+    }
+
+    /**
+     * 请求耗时
+     * @param {*} startTime 
+     * @param {*} endTime 
+     * @param {*} httpUrls 
+     * @param {*} httpStatus
+     */
+    async getApiTime(startTime, endTime, httpUrls, httpStatus) {
+        let tableName = getTableName()
+        let res = await Knex.select('httpUrl')
+            .from(tableName)
+            .sum('loadTime as loadSumTime')
+            .where('createdAt', '>', startTime)
+            .andWhere('createdAt', '<', endTime)
+            .andWhere('httpStatus', '=', httpStatus)
+            .whereIn('httpUrl', httpUrls)
+            .groupBy('httpUrl')
+            .catch(err => {
+                console.log(err)
+                return []
+            })
+
+        return res
     }
 }

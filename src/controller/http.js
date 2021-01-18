@@ -58,9 +58,41 @@ export default class HttpController extends Base {
         data.endTime = data.endTime || moment().format('YYYY-MM-DD 23:59:00')
         data.app = data.app || ""
 
-        result.lists = await httpLogModel.getApiCountLists(data)
-        result.count = await httpLogModel.getApiCount(data)
+        let lists = await httpLogModel.getApiCountLists(data)
+        let httpUrls = []
+        for (let list of lists || []) {
+            httpUrls.push(list.httpUrl)
+        }
+        let errorStatusLists = await httpLogModel.getApiStatusError(data.startTime, data.endTime, httpUrls)
+        let urlTimes = await httpLogModel.getApiTime(data.startTime, data.endTime, httpUrls, '200')
+        console.log('测试')
+        console.log(urlTimes)
 
+        let tableLists = []
+        // 错误
+        for (let v of lists || []) {
+            let item = v
+            item.successCount = 0
+            item.errorCount = 0
+            item.loadSumTime = 0
+            for (let errorStatus of errorStatusLists || []) {
+                if (v.httpUrl == errorStatus.httpUrl && errorStatus.httpStatus == '200') {
+                    item.successCount = errorStatus.httpUrlCount
+                }
+                if (v.httpUrl == errorStatus.httpUrl && errorStatus.httpStatus != '200') {
+                    item.errorCount = errorStatus.httpUrlCount
+                }
+            }
+            for(let time of urlTimes || []) {
+                if (v.httpUrl == time.httpUrl) {
+                    item.loadSumTime = time.loadSumTime
+                }
+            } 
+            tableLists.push(item)
+        }
+        // 请求耗时
+        result.lists = tableLists
+        result.count = await httpLogModel.getApiCount(data)
         return this.send(res, result)
     }
 }
