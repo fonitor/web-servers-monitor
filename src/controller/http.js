@@ -65,8 +65,6 @@ export default class HttpController extends Base {
         }
         let errorStatusLists = await httpLogModel.getApiStatusError(data.startTime, data.endTime, httpUrls)
         let urlTimes = await httpLogModel.getApiTime(data.startTime, data.endTime, httpUrls, '200')
-        console.log('测试')
-        console.log(urlTimes)
 
         let tableLists = []
         // 错误
