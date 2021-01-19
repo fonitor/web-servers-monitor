@@ -98,6 +98,7 @@ export default class HttpLog {
         let tableName = getTableName()
         let res = await Knex.select('simpleUrl', 'httpUrl')
             .from(tableName)
+            .sum('loadTime as loadSumTime', 'http')
             .count('httpUrl as httpUrlCount')
             .where('createdAt', '>', startTime)
             .andWhere('createdAt', '<', endTime)

@@ -64,7 +64,6 @@ export default class HttpController extends Base {
             httpUrls.push(list.httpUrl)
         }
         let errorStatusLists = await httpLogModel.getApiStatusError(data.startTime, data.endTime, httpUrls)
-        let urlTimes = await httpLogModel.getApiTime(data.startTime, data.endTime, httpUrls, '200')
 
         let tableLists = []
         // 错误
@@ -72,7 +71,6 @@ export default class HttpController extends Base {
             let item = v
             item.successCount = 0
             item.errorCount = 0
-            item.loadSumTime = 0
             for (let errorStatus of errorStatusLists || []) {
                 if (v.httpUrl == errorStatus.httpUrl && errorStatus.httpStatus == '200') {
                     item.successCount = errorStatus.httpUrlCount
@@ -81,11 +79,6 @@ export default class HttpController extends Base {
                     item.errorCount = errorStatus.httpUrlCount
                 }
             }
-            for(let time of urlTimes || []) {
-                if (v.httpUrl == time.httpUrl) {
-                    item.loadSumTime = time.loadSumTime
-                }
-            } 
             tableLists.push(item)
         }
         // 请求耗时
