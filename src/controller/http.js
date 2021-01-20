@@ -86,4 +86,22 @@ export default class HttpController extends Base {
         result.count = await httpLogModel.getApiCount(data)
         return this.send(res, result)
     }
+
+    /**
+     * 错误列表
+     * @param {*} req 
+     * @param {*} res 
+     */
+    async apiErrorList(req, res) {
+        let data = req.body || {},
+            result = {}
+        data.startTime = data.startTime || moment().format('YYYY-MM-DD 00:00:00')
+        data.endTime = data.endTime || moment().format('YYYY-MM-DD 23:59:00')
+        data.app = data.app || "",
+        tableLists = []
+
+        let lists = await httpLogModel.getErrorCountList(data)
+
+        return this.send(res, result)
+    }
 }

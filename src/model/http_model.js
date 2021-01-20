@@ -183,4 +183,51 @@ export default class HttpLog {
 
         return res
     }
+
+    /**
+     * errorList
+     * @param {*} params 
+     */
+    async getErrorCountList(params) {
+        let { startTime, endTime, app, pageSize, page } = params
+        let tableName = getTableName()
+        let res = await Knex.select('simpleUrl', 'httpUrl')
+            .from(tableName)
+            .count('httpUrl as httpUrlCount')
+            .count('userId as userIdCount')
+            .where('createdAt', '>', startTime)
+            .andWhere('createdAt', '<', endTime)
+            .andWhere('app', app)
+            .groupBy('httpUrl', 'simpleUrl')
+            .limit(pageSize)
+            .offset((page * pageSize) - pageSize)
+            .catch(err => {
+                console.log(err)
+                return []
+            })
+
+        return res
+    }
+
+    /**
+     * 错误总数
+     * @param {*} params 
+     */
+    async getErrorCount(params) {
+        let { startTime, endTime, app } = params
+        let tableName = getTableName()
+        let res = await Knex.select('simpleUrl', 'httpUrl')
+            .from(tableName)
+            .count('httpUrl as httpUrlCount')
+            .where('createdAt', '>', startTime)
+            .andWhere('createdAt', '<', endTime)
+            .andWhere('app', app)
+            .groupBy('httpUrl', 'simpleUrl')
+            .catch(err => {
+                console.log(err)
+                return []
+            })
+
+        return res.length
+    }
 }
