@@ -101,7 +101,13 @@ export default class HttpController extends Base {
         tableLists = []
 
         let lists = await httpLogModel.getErrorCountList(data)
-
+        // 错误
+        for (let v of lists || []) {
+            let item = v
+            tableLists.push(item)
+        }
+        result.lists = tableLists
+        
         return this.send(res, result)
     }
 }
