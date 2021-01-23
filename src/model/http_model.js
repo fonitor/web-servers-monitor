@@ -279,7 +279,6 @@ export default class HttpLog {
                 return []
             })
         let lists = []
-        console.log(res)
         for (let item of res) {
             let list = {}
             list.name = item.httpStatus
