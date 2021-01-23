@@ -1,6 +1,7 @@
 import Knex from '../library/mysql'
 import _ from 'lodash'
 import Logger from '../library/logger'
+import * as config from '../config/err'
 
 const BASE_TABLE_NAME = 'http_log_info'
 const TABLE_COLUMN = [
@@ -198,6 +199,7 @@ export default class HttpLog {
             .where('createdAt', '>', startTime)
             .andWhere('createdAt', '<', endTime)
             .andWhere('app', app)
+            .andWhere('httpUploadType', '=', config.HTTP_TYPE_ERROR)
             .groupBy('httpUrl', 'simpleUrl')
             .limit(pageSize)
             .offset((page * pageSize) - pageSize)
@@ -222,6 +224,7 @@ export default class HttpLog {
             .where('createdAt', '>', startTime)
             .andWhere('createdAt', '<', endTime)
             .andWhere('app', app)
+            .andWhere('httpUploadType', '=', config.HTTP_TYPE_ERROR)
             .groupBy('httpUrl', 'simpleUrl')
             .catch(err => {
                 console.log(err)
@@ -229,5 +232,30 @@ export default class HttpLog {
             })
 
         return res.length
+    }
+
+    /**
+     * 请求错误
+     * @param {*} startTime 
+     * @param {*} endTime 
+     * @param {*} httpUrls 
+     * @param {*} httpStatus
+     */
+    async getApiErrorStatus(startTime, endTime, httpUrls) {
+        let tableName = getTableName()
+        let res = await Knex.select('httpUrl')
+            .from(tableName)
+            .sum('loadTime as loadSumTime')
+            .where('createdAt', '>', startTime)
+            .andWhere('createdAt', '<', endTime)
+            .andWhere('httpUploadType', '=', config.HTTP_TYPE_ERROR)
+            .whereIn('httpUrl', httpUrls)
+            .groupBy('httpUrl')
+            .catch(err => {
+                console.log(err)
+                return []
+            })
+
+        return res
     }
 }

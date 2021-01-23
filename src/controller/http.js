@@ -94,20 +94,28 @@ export default class HttpController extends Base {
      */
     async apiErrorList(req, res) {
         let data = req.body || {},
-            result = {}
+            result = {},
+            tableLists = []
         data.startTime = data.startTime || moment().format('YYYY-MM-DD 00:00:00')
         data.endTime = data.endTime || moment().format('YYYY-MM-DD 23:59:00')
-        data.app = data.app || "",
-        tableLists = []
+        data.app = data.app || ""
+        
+        
 
         let lists = await httpLogModel.getErrorCountList(data)
+
+        let httpUrls = []
+        for (let list of lists || []) {
+            httpUrls.push(list.httpUrl)
+        }
         // 错误
         for (let v of lists || []) {
             let item = v
             tableLists.push(item)
         }
         result.lists = tableLists
-        
+        result.count = await httpLogModel.getErrorCount(data)
+
         return this.send(res, result)
     }
 }
