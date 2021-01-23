@@ -18,8 +18,14 @@ const httpApiErrorList = RouterConfigBuilder.routerConfigBuilder('/api/http/erro
     return http.apiErrorList(req, res)
 })
 
+// 错误明细
+const httpApiErrorStatus = RouterConfigBuilder.routerConfigBuilder('/api/http/error/status', RouterConfigBuilder.METHOD_TYPE_POST, (req, res) => {
+    return http.getApiErrorStatus(req, res)
+})
+
 export default {
     ...httpCount,
     ...httpApiList,
-    ...httpApiErrorList
+    ...httpApiErrorList,
+    ...httpApiErrorStatus
 }

@@ -258,4 +258,55 @@ export default class HttpLog {
 
         return res
     }
+
+    /**
+     * 错误明细
+     * @param {*} param 
+     */
+    async getErrorStatusDetailedCount(param) {
+        let { startTime, endTime, app } = param
+        let tableName = getTableName()
+        let res = await Knex(tableName)
+            .select(['httpStatus'])
+            .count('httpUrl as httpUrlCount')
+            .where('createdAt', '>', startTime)
+            .andWhere('createdAt', '<', endTime)
+            .andWhere('app', app)
+            .andWhere('httpUploadType', '=', config.HTTP_TYPE_ERROR)
+            .groupBy('httpStatus')
+            .catch(err => {
+                console.log(err)
+                return []
+            })
+        let lists = []
+        console.log(res)
+        for (let item of res) {
+            let list = {}
+            list.name = item.httpStatus
+            list.value = item.httpUrlCount
+            lists.push(list)
+        }
+
+        return lists;
+    }
+
+    /**
+     * 错误总数
+     * @param {*} param 
+     */
+    async getApiErrorCount(param) {
+        let { startTime, endTime, app } = param
+        let tableName = getTableName()
+        let res = await Knex(tableName)
+            .count('httpUrl as httpUrlCount')
+            .where('createdAt', '>', startTime)
+            .andWhere('createdAt', '<', endTime)
+            .andWhere('app', app)
+            .andWhere('httpUploadType', '=', config.HTTP_TYPE_ERROR)
+            .catch(err => {
+                console.log(err)
+                return []
+            })
+        return res[0].httpUrlCount
+    }
 }

@@ -118,4 +118,21 @@ export default class HttpController extends Base {
 
         return this.send(res, result)
     }
+
+    /**
+     * 错误明细
+     * @param {*} req 
+     * @param {*} res 
+     */
+    async getApiErrorStatus(req, res) {
+        let data = req.body || {},
+            result = {}
+        data.startTime = data.startTime || moment().format('YYYY-MM-DD 00:00:00')
+        data.endTime = data.endTime || moment().format('YYYY-MM-DD 23:59:00')
+        data.app = data.app || ""
+
+        result.statusCount = await httpLogModel.getErrorStatusDetailedCount(data)
+        result.errorCount = await httpLogModel.getApiErrorCount(data)
+        return this.send(res, result)
+    }
 }
