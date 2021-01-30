@@ -16,6 +16,7 @@ const registedCommandList = [
     './commands/save_log/mqLog', // saveLog
     './commands/js/index', // 统计每隔1分钟js错误
     './commands/http/index', // 统计每隔1分钟http 请求
+    './commands/page/index', // 统计每隔5分钟pv
 ]
 
 

@@ -34,7 +34,7 @@ export default class CustomerPv {
             'referrer',
             'projectVersion',
             'customerKey',
-            'pageKey',
+            'userId',
             'deviceName',
             'os',
             'browserName',
@@ -76,7 +76,7 @@ export default class CustomerPv {
     async getTimePagePvCount(startTime, endTime, app) {
         let tableName = getTableName()
         let res = await Knex(tableName)
-            .count()
+            .count('id as idCount')
             .where('createdAt', '>', startTime)
             .andWhere('createdAt', '<', endTime)
             .andWhere('app', app)
@@ -95,6 +95,18 @@ export default class CustomerPv {
      * @param {*} app 
      */
     async getTimePageUv(startTime, endTime, app) {
+        let tableName = getTableName()
+        let res = await Knex(tableName)
+            .countDistinct('userId as idCount')
+            .where('createdAt', '>', startTime)
+            .andWhere('createdAt', '<', endTime)
+            .andWhere('app', app)
+            .andWhere('userId', '!=', '')
+            .catch(err => {
+                console.log(err)
+                return []
+            })
 
+        return res;
     }
 }

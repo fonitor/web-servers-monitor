@@ -35,10 +35,11 @@ export default class PageCount {
             'createdAt',
             'updatedAt'
         ]) {
-            insertData[column] = data[column] || ""
-            // if (_.has(data, [column])) {
-            //     insertData[column] = data[column] || ""
-            // }
+            if (_.has(data, [column])) {
+                insertData[column] = data[column]
+            } else {
+                insertData[column] = data[column] || ""
+            }
         }
 
         let insertResult = await Knex.returning('id')

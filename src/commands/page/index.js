@@ -3,10 +3,14 @@
 import Base from "../base";
 import moment from 'moment'
 import DATE_FORMAT from '../../constants/date_format'
+import Project from '../../model/project_model'
 import PageCount from '../../model/page_count'
+import CustomerPv from '../../model/pv_model'
+import * as config from '../../config/err'
 
 const pageCount = new PageCount()
-
+const customerPv = new CustomerPv()
+const projectModel = new Project()
 
 class Page extends Base {
   static get signature() {
@@ -39,10 +43,12 @@ class Page extends Base {
 
     for (let project of projectLists) {
       try {
-         let jsErrors = await javascriptModel.getJsCount(startTime, endTime, project.app);
-         this.handleSaveJs(project.app, jsErrors, endTime)
+         let pagePvCount = await customerPv.getTimePagePvCount(startTime, endTime, project.app);
+         this.handleSavePageCount(project.app, pagePvCount[0].idCount || 0, endTime, config.PAGE_COUNT_PV)
+         let pageUvCount = await customerPv.getTimePageUv(startTime, endTime, project.app);
+         this.handleSavePageCount(project.app, pageUvCount[0].idCount || 0, endTime, config.PAGE_COUNT_UV)
       }catch(err) {
-        this.handleSaveJs(project.app, 0, endTime)
+        
       }
     }
   }
@@ -52,16 +58,17 @@ class Page extends Base {
    * @param {*} app 
    * @param {*} count 
    * @param {*} time 
+   * @param {*} type
    */
-  async handleSaveJs(app, count, time) {
-    // let item = {}
-    // item.app = app
-    // item.type = 1
-    // item.count = count
-    // item.dataTime = moment().format(DATE_FORMAT.DISPLAY_BY_DAY)
-    // item.createdAt = time
-    // item.updatedAt = time
-    // jsModel.addJavascriptError(item)
+  async handleSavePageCount(app, count, time, type = config.PAGE_COUNT_PV) {
+    let item = {}
+    item.app = app
+    item.type = type
+    item.count = count
+    item.dataTime = moment().format(DATE_FORMAT.DISPLAY_BY_DAY)
+    item.createdAt = time
+    item.updatedAt = time
+    pageCount.save(item)
   }
 
 }
