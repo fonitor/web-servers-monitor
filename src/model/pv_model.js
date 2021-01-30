@@ -66,4 +66,35 @@ export default class CustomerPv {
 
         return id > 0
     }
+
+    /**
+     * 某一时间段pv量
+     * @param {*} startTime 
+     * @param {*} endTime 
+     * @param {*} app 
+     */
+    async getTimePagePvCount(startTime, endTime, app) {
+        let tableName = getTableName()
+        let res = await Knex(tableName)
+            .count()
+            .where('createdAt', '>', startTime)
+            .andWhere('createdAt', '<', endTime)
+            .andWhere('app', app)
+            .catch(err => {
+                console.log(err)
+                return []
+            })
+
+        return res;
+    }
+
+    /**
+     * 某一时间段uv量
+     * @param {*} startTime 
+     * @param {*} endTime 
+     * @param {*} app 
+     */
+    async getTimePageUv(startTime, endTime, app) {
+
+    }
 }
