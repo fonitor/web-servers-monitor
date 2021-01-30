@@ -83,7 +83,17 @@ export default class TaskManager extends Base {
         // 每5分钟的第30秒启动
         schedule.scheduleJob('0 */5 * * * *', () => {
             this.log('测试执行5分钟')
-            
+            let startTime = moment().subtract(5, "minutes").format("YYYY-MM-DD HH:mm:00"),
+                endTime = moment().format('YYYY-MM-DD HH:mm:00');
+
+            let summaryCommandList = [
+                'Page:Count',
+            ]
+
+            for (let summaryCommand of summaryCommandList) {
+                // 当日数据
+                this.dispatchParseCommand(summaryCommand, startTime, endTime)
+            }
         })
     }
 

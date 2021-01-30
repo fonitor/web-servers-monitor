@@ -3,6 +3,7 @@ import moment from 'moment'
 import _ from 'lodash'
 import Logger from '../library/logger'
 import DATE_FORMAT from '../constants/date_format'
+import * as config from '../config/err'
 
 const BASE_TABLE_NAME = 'http_count'
 const TABLE_COLUMN = [
@@ -81,10 +82,10 @@ export default class HttpCount {
             errorCount: 0
         }
         for (let item of res) {
-            if (item.type == 1) {
+            if (item.type == config.HTTP_TYPE_SUCCESS) {
                 result.successCount = item.typeCount
             }
-            if (item.type == 2) {
+            if (item.type == config.HTTP_TYPE_ERROR) {
                 result.errorCount = item.typeCount
             }
         }
