@@ -54,7 +54,15 @@ const startup = () => {
   /* 添加静态路径 */
   app.use(express.static(path.join(__dirname, 'public')))
 
-  app.options('*', cors())
+  // app.options('*', cors())
+
+  app.all('*', function (req, res, next) {
+      res.header('Access-Control-Allow-Origin', '*');
+      res.header('Access-Control-Allow-Headers', 'Content-Type');
+      res.header('Access-Control-Allow-Methods', '*');
+      res.header('Content-Type', 'application/json;charset=utf-8');
+      next();
+  });
 
   // 支持跨域
   app.use(cors({
@@ -101,6 +109,7 @@ const startup = () => {
   app.listen(appConfig.port, function () {
     Logger.log(`${appConfig.name} listening on port ${appConfig.port}`)
   })
+  
 }
 
 

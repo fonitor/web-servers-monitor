@@ -67,8 +67,15 @@ const startup = () => {
   app.use((0, _cookieParser.default)());
   /* 添加静态路径 */
 
-  app.use(_express.default.static(_path.default.join(__dirname, 'public')));
-  app.options('*', (0, _cors.default)()); // 支持跨域
+  app.use(_express.default.static(_path.default.join(__dirname, 'public'))); // app.options('*', cors())
+
+  app.all('*', function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.header('Access-Control-Allow-Methods', '*');
+    res.header('Content-Type', 'application/json;charset=utf-8');
+    next();
+  }); // 支持跨域
 
   app.use((0, _cors.default)({
     origin: true,
