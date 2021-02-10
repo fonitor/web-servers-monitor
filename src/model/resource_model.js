@@ -28,9 +28,11 @@ export default class ResourceModel {
         let tableName = getTableName()
         let insertData = {}
         for (let column of [
+            'sourceUrl',
+            'elementType',
             'simpleUrl',
             'customerKey',
-            'pageKey',
+            'userId',
             'deviceName',
             'os',
             'browserName',
@@ -41,9 +43,6 @@ export default class ResourceModel {
             'city',
             'uploadType',
             'browserInfo',
-            'sourceUrl',
-            'elementType',
-            'status',
             'dataDay',
             'createdAt',
             'updatedAt'
