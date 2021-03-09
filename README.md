@@ -321,6 +321,22 @@ function scheduleCancel(){
 scheduleCancel();
 ~~~
 
+### 通过nginx进行代理转发的时候，nginx需要加配置，才能获取访问者的真实IP
+
+~~~
+server{
+    listen 80;
+    server_name 127.0.0.1;
+    location / {
+        proxy_pass ...
+        
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+}
+~~~
+
 ### 页面性能监控
 
 页面性能
