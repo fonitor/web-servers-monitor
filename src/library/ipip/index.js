@@ -39,6 +39,19 @@ function ip2Locate(ip) {
     }
 }
 
+/**
+ * 获取nginx ip
+ * @param {*} req 
+ */
+function getIp(req) {
+    let ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.socket.remoteAddress || req.connection.socket.remoteAddress;
+
+    let realip = ip.match(/\d+.\d+.\d+.\d+/);
+    ip = realip ? realip.join('.') : null;
+    return ip
+}
+
 export default {
-    ip2Locate
+    ip2Locate,
+    getIp
 }

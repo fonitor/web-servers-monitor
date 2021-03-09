@@ -3,6 +3,7 @@ import moment from 'moment'
 import _ from 'lodash'
 import config from '../config/common'
 import ErrorSave from '../common/err_save'
+import LIpip from '../library/ipip'
 
 import RabbitMq from '../library/mq/index'
 
@@ -26,6 +27,7 @@ export default class Index extends Base {
         data.createdAt = startAt
         data.updatedAt = endAt
         data.dataDay = moment().format('YYYY-MM-DD');
+        data.monitorIp = LIpip.getIp() || ""
 
         if (config.use.mq) {
             mq.sendQueueMsg('webLogSave', JSON.stringify(data) || {}, (res) => {
